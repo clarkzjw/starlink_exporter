@@ -1,3 +1,5 @@
+// Updated using Starlink Dish Firmware Version - 29424243-0ba5-4e9b-b402-79d25cb6f8de.uterm.release
+
 package main
 
 import (
@@ -5,10 +7,10 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/danopstech/starlink_exporter/internal/exporter"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	log "github.com/sirupsen/logrus"
+	"github.com/sysdigdan/starlink_exporter/internal/exporter"
 )
 
 const (
