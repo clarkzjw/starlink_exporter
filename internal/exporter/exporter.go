@@ -11,7 +11,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	"github.com/danopstech/starlink_exporter/pkg/spacex.com/api/device"
+	"github.com/sysdigdan/starlink_exporter/pkg/spacex.com/api/device"
 )
 
 const (
