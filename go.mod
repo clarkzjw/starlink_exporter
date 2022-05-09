@@ -1,4 +1,4 @@
-module github.com/sysdigdan/starlink_exporter
+module github.com/danopstech/starlink_exporter
 
 go 1.18
 
