@@ -14,7 +14,6 @@ builds:
       - darwin
     goarch:
       - amd64
-      - 386
       - arm
       - arm64
     goarm:
@@ -26,7 +25,6 @@ archives:
       darwin: Darwin
       linux: Linux
       windows: Windows
-      386: i386
       amd64: x86_64
     format_overrides:
       - goos: windows
@@ -39,17 +37,15 @@ checksum:
 
 dockers:
   - image_templates:
-      - ghcr.io/danopstech/{{.ProjectName}}:v{{ .Version }}-amd64
-      - danopstech/{{.ProjectName}}:v{{ .Version }}-amd64
-    use_buildx: true
+      - sysdigdan/{{.ProjectName}}:v{{ .Version }}-amd64
+    use: buildx
     dockerfile: Dockerfile
     build_flag_templates:
       - "--platform=linux/amd64"
 
   - image_templates:
-      - ghcr.io/danopstech/{{.ProjectName}}:v{{ .Version }}-arm7
-      - danopstech/{{.ProjectName}}:v{{ .Version }}-arm7
-    use_buildx: true
+      - sysdigdan/{{.ProjectName}}:v{{ .Version }}-arm7
+    use: buildx
     dockerfile: Dockerfile
     goarch: arm
     goarm: 7
@@ -57,35 +53,22 @@ dockers:
       - "--platform=linux/arm/v7"
 
   - image_templates:
-      - ghcr.io/danopstech/{{.ProjectName}}:v{{ .Version }}-arm64
-      - danopstech/{{.ProjectName}}:v{{ .Version }}-arm64
-    use_buildx: true
+      - sysdigdan/{{.ProjectName}}:v{{ .Version }}-arm64
+    use: buildx
     dockerfile: Dockerfile
     goarch: arm64
     build_flag_templates:
       - "--platform=linux/arm64/v8"
 
 docker_manifests:
-  # github
-  - name_template: ghcr.io/danopstech/{{.ProjectName}}:v{{ .Version }}
-    image_templates:
-      - ghcr.io/danopstech/{{.ProjectName}}:v{{ .Version }}-amd64
-      - ghcr.io/danopstech/{{.ProjectName}}:v{{ .Version }}-arm64
-      - ghcr.io/danopstech/{{.ProjectName}}:v{{ .Version }}-arm7
-  - name_template: ghcr.io/danopstech/{{.ProjectName}}:latest
-    image_templates:
-      - ghcr.io/danopstech/{{.ProjectName}}:v{{ .Version }}-amd64
-      - ghcr.io/danopstech/{{.ProjectName}}:v{{ .Version }}-arm64
-      - ghcr.io/danopstech/{{.ProjectName}}:v{{ .Version }}-arm7
-
   # dockerhub
-  - name_template: danopstech/{{.ProjectName}}:v{{ .Version }}
+  - name_template: sysdigdan/{{.ProjectName}}:v{{ .Version }}
     image_templates:
-      - danopstech/{{.ProjectName}}:v{{ .Version }}-amd64
-      - danopstech/{{.ProjectName}}:v{{ .Version }}-arm64
-      - danopstech/{{.ProjectName}}:v{{ .Version }}-arm7
-  - name_template: danopstech/{{.ProjectName}}:latest
+      - sysdigdan/{{.ProjectName}}:v{{ .Version }}-amd64
+      - sysdigdan/{{.ProjectName}}:v{{ .Version }}-arm64
+      - sysdigdan/{{.ProjectName}}:v{{ .Version }}-arm7
+  - name_template: sysdigdan/{{.ProjectName}}:latest
     image_templates:
-      - danopstech/{{.ProjectName}}:v{{ .Version }}-amd64
-      - danopstech/{{.ProjectName}}:v{{ .Version }}-arm64
-      - danopstech/{{.ProjectName}}:v{{ .Version }}-arm7
+      - sysdigdan/{{.ProjectName}}:v{{ .Version }}-amd64
+      - sysdigdan/{{.ProjectName}}:v{{ .Version }}-arm64
+      - sysdigdan/{{.ProjectName}}:v{{ .Version }}-arm7

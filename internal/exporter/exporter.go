@@ -194,6 +194,16 @@ var (
 		"Status of ethernet",
 		nil, nil,
 	)
+	dishInstallPending = prometheus.NewDesc(
+		prometheus.BuildFQName(namespace, "dish", "alert_install_pending"),
+		"Installation Pending",
+		nil, nil,
+	)
+	dishIsHeating = prometheus.NewDesc(
+		prometheus.BuildFQName(namespace, "dish", "alert_is_heating"),
+		"Is Heating",
+		nil, nil,
+	)
 
 	// DishObstructions
 	dishCurrentlyObstructed = prometheus.NewDesc(
@@ -321,6 +331,8 @@ func (e *Exporter) Describe(ch chan<- *prometheus.Desc) {
 	ch <- dishAlertMastNotNearVertical
 	ch <- dishUnexpectedLocation
 	ch <- dishSlowEthernetSpeeds
+	ch <- dishInstallPending
+	ch <- dishIsHeating
 
 	// DishObstructions
 	ch <- dishCurrentlyObstructed
@@ -553,6 +565,12 @@ func (e *Exporter) collectDishAlerts(ch chan<- prometheus.Metric) bool {
 	)
 	ch <- prometheus.MustNewConstMetric(
 		dishAlertRoaming, prometheus.GaugeValue, flool(alerts.GetRoaming()),
+	)
+	ch <- prometheus.MustNewConstMetric(
+		dishInstallPending, prometheus.GaugeValue, flool(alerts.GetInstallPending()),
+	)
+	ch <- prometheus.MustNewConstMetric(
+		dishIsHeating, prometheus.GaugeValue, flool(alerts.GetIsHeating()),
 	)
 
 	return true
