@@ -7,7 +7,7 @@ import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	math "math"
-	status "github.com/sysdigdan/starlink-grpc-go/pkg/spacex.com/api/status"
+	status "github.com/sysdigdan/starlink_exporter/pkg/spacex.com/api/status"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
