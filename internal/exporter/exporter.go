@@ -3,7 +3,6 @@ package exporter
 import (
 	"context"
 	"fmt"
-	"strconv"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -268,6 +267,7 @@ func New(address string) (*Exporter, error) {
 
 	ctx, HandleCancel := context.WithTimeout(context.Background(), time.Second*1)
 	defer HandleCancel()
+
 	resp, err := device.NewDeviceClient(conn).Handle(ctx, &device.Request{
 		Request: &device.Request_GetDeviceInfo{},
 	})
@@ -512,21 +512,21 @@ func (e *Exporter) collectDishObstructions(ch chan<- prometheus.Metric) bool {
 		dishProlongedObstructionValid, prometheus.GaugeValue, flool(obstructions.GetAvgProlongedObstructionValid()),
 	)
 
-	for i, v := range obstructions.GetWedgeFractionObstructed() {
-		ch <- prometheus.MustNewConstMetric(
-			dishWedgeFractionObstructionRatio, prometheus.GaugeValue, float64(v),
-			strconv.Itoa(i),
-			fmt.Sprintf("%d_to_%d", i*30, (i+1)*30),
-		)
-	}
-
-	for i, v := range obstructions.GetWedgeAbsFractionObstructed() {
-		ch <- prometheus.MustNewConstMetric(
-			dishWedgeAbsFractionObstructionRatio, prometheus.GaugeValue, float64(v),
-			strconv.Itoa(i),
-			fmt.Sprintf("%d_to_%d", i*30, (i+1)*30),
-		)
-	}
+	//for i, v := range obstructions.GetWedgeFractionObstructed() {
+	//	ch <- prometheus.MustNewConstMetric(
+	//		dishWedgeFractionObstructionRatio, prometheus.GaugeValue, float64(v),
+	//		strconv.Itoa(i),
+	//		fmt.Sprintf("%d_to_%d", i*30, (i+1)*30),
+	//	)
+	//}
+	//
+	//for i, v := range obstructions.GetWedgeAbsFractionObstructed() {
+	//	ch <- prometheus.MustNewConstMetric(
+	//		dishWedgeAbsFractionObstructionRatio, prometheus.GaugeValue, float64(v),
+	//		strconv.Itoa(i),
+	//		fmt.Sprintf("%d_to_%d", i*30, (i+1)*30),
+	//	)
+	//}
 
 	return true
 }

@@ -1,3 +1,4 @@
+cmd/starlink_exporter/starlink_exporter
 proto/
 dist/
 make.sh
