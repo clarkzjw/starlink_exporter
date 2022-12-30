@@ -30,6 +30,7 @@ var (
 			"software_version",
 			"manufactured_version",
 			"country_code",
+			"bootcount",
 			"utc_offset"}, nil,
 	)
 	SoftwarePartitionsEqual = prometheus.NewDesc(
@@ -396,6 +397,7 @@ func (e *Exporter) collectDishStatus(ch chan<- prometheus.Metric) bool {
 		dishI.GetSoftwareVersion(),
 		dishI.GetManufacturedVersion(),
 		dishI.GetCountryCode(),
+		fmt.Sprint(dishI.GetBootcount()),
 		fmt.Sprint(dishI.GetUtcOffsetS()),
 	)
 	ch <- prometheus.MustNewConstMetric(
