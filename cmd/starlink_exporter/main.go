@@ -1,5 +1,3 @@
-// Updated using Starlink Dish Firmware Version - 29424243-0ba5-4e9b-b402-79d25cb6f8de.uterm.release
-
 package main
 
 import (
