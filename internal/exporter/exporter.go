@@ -33,6 +33,16 @@ var (
 			"bootcount",
 			"utc_offset"}, nil,
 	)
+	dishConfig = prometheus.NewDesc(
+		prometheus.BuildFQName(namespace, "dish", "dish_config"),
+		"Dish Config",
+		[]string{
+			"snow_melt_mode",
+			"location_request_mode",
+			"level_dish_mode",
+			"power_save_mode",
+		}, nil,
+	)
 	SoftwarePartitionsEqual = prometheus.NewDesc(
 		prometheus.BuildFQName(namespace, "dish", "software_partitions_equal"),
 		"Starlink Dish Software Partitions Equal.",
@@ -289,6 +299,9 @@ func New(address string) (*Exporter, error) {
 // implements prometheus.Collector.
 func (e *Exporter) Describe(ch chan<- *prometheus.Desc) {
 
+	// WiFi
+	ch <- dishConfig
+
 	// DeviceInfo
 	ch <- dishInfo
 	ch <- SoftwarePartitionsEqual
@@ -354,6 +367,7 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 	ok := e.collectDishStatus(ch)
 	ok = ok && e.collectDishObstructions(ch)
 	ok = ok && e.collectDishAlerts(ch)
+	ok = ok && e.collectDishConfig(ch)
 
 	if ok {
 		ch <- prometheus.MustNewConstMetric(
@@ -367,6 +381,30 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 			dishUp, prometheus.GaugeValue, 0.0,
 		)
 	}
+}
+
+func (e *Exporter) collectDishConfig(ch chan<- prometheus.Metric) bool {
+	req := &device.Request{
+		Request: &device.Request_DishGetConfig{},
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*1)
+	defer cancel()
+	resp, err := e.Client.Handle(ctx, req)
+	if err != nil {
+		log.Errorf("failed to get dish config from dish: %s", err.Error())
+		return false
+	}
+
+	dishC := resp.GetDishGetConfig()
+	ch <- prometheus.MustNewConstMetric(
+		dishConfig, prometheus.GaugeValue, 1.00,
+		dishC.GetDishConfig().GetSnowMeltMode().String(),
+		dishC.GetDishConfig().GetLocationRequestMode().String(),
+		dishC.GetDishConfig().GetLevelDishMode().String(),
+		fmt.Sprint(dishC.GetDishConfig().GetPowerSaveMode()),
+	)
+	return true
 }
 
 func (e *Exporter) collectDishStatus(ch chan<- prometheus.Metric) bool {
