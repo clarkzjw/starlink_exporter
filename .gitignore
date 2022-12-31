@@ -1,7 +1,6 @@
 cmd/starlink_exporter/starlink_exporter
 debug.json
 res.txt
-proto/
 dist/
 make.sh
 .idea/
