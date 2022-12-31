@@ -12,8 +12,8 @@ github.com/golang/protobuf/ptypes
 github.com/golang/protobuf/ptypes/any
 github.com/golang/protobuf/ptypes/duration
 github.com/golang/protobuf/ptypes/timestamp
-# github.com/matttproud/golang_protobuf_extensions v1.0.1
-## explicit
+# github.com/matttproud/golang_protobuf_extensions v1.0.4
+## explicit; go 1.9
 github.com/matttproud/golang_protobuf_extensions/pbutil
 # github.com/prometheus/client_golang v1.14.0
 ## explicit; go 1.17
