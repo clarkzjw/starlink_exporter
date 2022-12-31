@@ -383,6 +383,36 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 	}
 }
 
+// Unimplemented
+func (e *Exporter) collectNetworkInterface(ch chan<- prometheus.Metric) bool {
+	req := &device.Request{
+		Request: &device.Request_GetNetworkInterfaces{},
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*1)
+	defer cancel()
+
+	resp, err := e.Client.Handle(ctx, req)
+	if err != nil {
+		log.Errorf("failed to get dish config from dish: %s", err.Error())
+		return false
+	}
+
+	netIfaces := resp.GetGetNetworkInterfaces().GetNetworkInterfaces()
+	for _, iface := range netIfaces {
+		name := iface.GetName()
+		fmt.Printf("iface name: %s", name)
+		if iface.GetEthernet() != nil {
+			duplex := iface.GetEthernet().GetDuplex()
+			fmt.Printf("duplex: %s", duplex)
+		} else if iface.GetWifi() != nil {
+			channel := iface.GetWifi().GetChannel()
+			fmt.Printf("channel: %d", channel)
+		}
+	}
+	return true
+}
+
 func (e *Exporter) collectDishConfig(ch chan<- prometheus.Metric) bool {
 	req := &device.Request{
 		Request: &device.Request_DishGetConfig{},
