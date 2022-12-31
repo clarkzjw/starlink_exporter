@@ -15,6 +15,12 @@ import (
 
 const (
 	// DishAddress to reach Starlink dish ip:port
+
+	// TODO
+	// some methods are unimplemented on one port while usable on another port
+	// need to implement some try and retry methods on grpc call
+
+	//DishAddress = "192.168.1.1:9000"
 	DishAddress = "192.168.100.1:9200"
 	namespace   = "starlink"
 )
@@ -368,6 +374,7 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 	ok = ok && e.collectDishObstructions(ch)
 	ok = ok && e.collectDishAlerts(ch)
 	ok = ok && e.collectDishConfig(ch)
+	//ok = ok && e.collectNetworkInterface(ch)
 
 	if ok {
 		ch <- prometheus.MustNewConstMetric(
@@ -383,7 +390,6 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 	}
 }
 
-// Unimplemented
 func (e *Exporter) collectNetworkInterface(ch chan<- prometheus.Metric) bool {
 	req := &device.Request{
 		Request: &device.Request_GetNetworkInterfaces{},
