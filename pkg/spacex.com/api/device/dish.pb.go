@@ -10,7 +10,7 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
-	ut_disablement_codes "github.com/sysdigdan/starlink_exporter/pkg/spacex.com/api/satellites/network/ut_disablement_codes"
+	ut_disablement_codes "github.com/clarkzjw/starlink_exporter/pkg/spacex.com/api/satellites/network/ut_disablement_codes"
 	sync "sync"
 )
 

@@ -37,14 +37,14 @@ checksum:
 
 dockers:
   - image_templates:
-      - sysdigdan/{{.ProjectName}}:v{{ .Version }}-amd64
+      - clarkzjw/{{.ProjectName}}:v{{ .Version }}-amd64
     use: buildx
     dockerfile: Dockerfile
     build_flag_templates:
       - "--platform=linux/amd64"
 
   - image_templates:
-      - sysdigdan/{{.ProjectName}}:v{{ .Version }}-arm7
+      - clarkzjw/{{.ProjectName}}:v{{ .Version }}-arm7
     use: buildx
     dockerfile: Dockerfile
     goarch: arm
@@ -53,7 +53,7 @@ dockers:
       - "--platform=linux/arm/v7"
 
   - image_templates:
-      - sysdigdan/{{.ProjectName}}:v{{ .Version }}-arm64
+      - clarkzjw/{{.ProjectName}}:v{{ .Version }}-arm64
     use: buildx
     dockerfile: Dockerfile
     goarch: arm64
@@ -62,13 +62,13 @@ dockers:
 
 docker_manifests:
   # dockerhub
-  - name_template: sysdigdan/{{.ProjectName}}:v{{ .Version }}
+  - name_template: clarkzjw/{{.ProjectName}}:v{{ .Version }}
     image_templates:
-      - sysdigdan/{{.ProjectName}}:v{{ .Version }}-amd64
-      - sysdigdan/{{.ProjectName}}:v{{ .Version }}-arm64
-      - sysdigdan/{{.ProjectName}}:v{{ .Version }}-arm7
-  - name_template: sysdigdan/{{.ProjectName}}:latest
+      - clarkzjw/{{.ProjectName}}:v{{ .Version }}-amd64
+      - clarkzjw/{{.ProjectName}}:v{{ .Version }}-arm64
+      - clarkzjw/{{.ProjectName}}:v{{ .Version }}-arm7
+  - name_template: clarkzjw/{{.ProjectName}}:latest
     image_templates:
-      - sysdigdan/{{.ProjectName}}:v{{ .Version }}-amd64
-      - sysdigdan/{{.ProjectName}}:v{{ .Version }}-arm64
-      - sysdigdan/{{.ProjectName}}:v{{ .Version }}-arm7
+      - clarkzjw/{{.ProjectName}}:v{{ .Version }}-amd64
+      - clarkzjw/{{.ProjectName}}:v{{ .Version }}-arm64
+      - clarkzjw/{{.ProjectName}}:v{{ .Version }}-arm7
