@@ -1,22 +1,20 @@
 <p align="center">
-  <img alt="logo" src="https://github.com/danopstech/starlink_exporter/raw/main/.docs/assets/logo.jpg" height="150" />
+  <img alt="logo" src="https://github.com/clarkzjw/starlink_exporter/raw/main/.docs/assets/logo.jpg" height="150" />
   <h3 align="center">Starlink Prometheus Exporter</h3>
 </p>
 
 ---
 A [Starlink](https://www.starlink.com/) exporter for Prometheus. Not affiliated with or acting on behalf of Starlink(™)
 
-[![goreleaser](https://github.com/danopstech/starlink_exporter/actions/workflows/release.yaml/badge.svg)](https://github.com/danopstech/starlink_exporter/actions/workflows/release.yaml)
-[![build](https://github.com/danopstech/starlink_exporter/actions/workflows/build.yaml/badge.svg)](https://github.com/danopstech/starlink_exporter/actions/workflows/build.yaml)
-[![License](https://img.shields.io/github/license/danopstech/starlink_exporter)](/LICENSE)
-[![Release](https://img.shields.io/github/release/danopstech/starlink_exporter.svg)](https://github.com/danopstech/starlink_exporter/releases/latest)
-![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/danopstech/starlink_exporter)
+[![goreleaser](https://github.com/clarkzjw/starlink_exporter/actions/workflows/release.yaml/badge.svg)](https://github.com/clarkzjw/starlink_exporter/actions/workflows/release.yaml)
+[![build](https://github.com/clarkzjw/starlink_exporter/actions/workflows/build.yaml/badge.svg)](https://github.com/clarkzjw/starlink_exporter/actions/workflows/build.yaml)
+[![License](https://img.shields.io/github/license/clarkzjw/starlink_exporter)](/LICENSE)
+[![Release](https://img.shields.io/github/release/clarkzjw/starlink_exporter.svg)](https://github.com/clarkzjw/starlink_exporter/releases/latest)
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/clarkzjw/starlink_exporter)
 ![os/arch](https://img.shields.io/badge/os%2Farch-amd64-yellow)
 ![os/arch](https://img.shields.io/badge/os%2Farch-arm64-yellow)
 ![os/arch](https://img.shields.io/badge/os%2Farch-armv7-yellow)
-[![Go Report Card](https://goreportcard.com/badge/github.com/danopstech/starlink_exporter)](https://goreportcard.com/report/github.com/danopstech/starlink_exporter)
-
-If you would like a pre-packaged system to monitor you Starlink system please check out https://github.com/danopstech/starlink. It includes this exporter, speedtest_exporter, blackbox_exporter, Grafana and Prometheus in one Docker Compose file.
+[![Go Report Card](https://goreportcard.com/badge/github.com/clarkzjw/starlink_exporter)](https://goreportcard.com/report/github.com/clarkzjw/starlink_exporter)
 
 ## Usage:
 
@@ -36,7 +34,7 @@ Usage of starlink_exporter
 
 ### Binaries
 
-For pre-built binaries please take a look at the [releases](https://github.com/danopstech/starlink_exporter/releases).
+For pre-built binaries please take a look at the [releases](https://github.com/clarkzjw/starlink_exporter/releases).
 
 ```bash
 ./starlink_exporter [flags]
@@ -44,15 +42,15 @@ For pre-built binaries please take a look at the [releases](https://github.com/d
 
 ### Docker
 
-Docker Images can be found at [GitHub Container Registry](https://github.com/orgs/danopstech/packages/container/package/starlink_exporter) & [Dockerhub](https://hub.docker.com/r/danopstech/starlink_exporter).
+Docker Images can be found at [Dockerhub](https://hub.docker.com/r/clarkzjw/starlink_exporter/tags).
 
 Example:
 ```bash
-docker pull ghcr.io/danopstech/starlink_exporter:latest
+docker pull docker.io/clarkzjw/starlink_exporter:latest
 
 docker run \
   -p 9817:9817 \
-  ghcr.io/danopstech/starlink_exporter:latest [flags]
+  docker.io/clarkzjw/starlink_exporter:latest [flags]
 ```
 
 ### Setup Prometheus to scrape `starlink_exporter`
@@ -73,78 +71,129 @@ scrape_configs
 ## Exported Metrics:
 
 ```text
+# HELP starlink_dish_alert_install_pending Installation Pending
+# TYPE starlink_dish_alert_install_pending gauge
+starlink_dish_alert_install_pending 0
+# HELP starlink_dish_alert_is_heating Is Heating
+# TYPE starlink_dish_alert_is_heating gauge
+starlink_dish_alert_is_heating 1
 # HELP starlink_dish_alert_mast_not_near_vertical Status of mast position
 # TYPE starlink_dish_alert_mast_not_near_vertical gauge
+starlink_dish_alert_mast_not_near_vertical 0
 # HELP starlink_dish_alert_motors_stuck Status of motor stuck
 # TYPE starlink_dish_alert_motors_stuck gauge
+starlink_dish_alert_motors_stuck 0
+# HELP starlink_dish_alert_roaming Status of roaming
+# TYPE starlink_dish_alert_roaming gauge
+starlink_dish_alert_roaming 1
 # HELP starlink_dish_alert_slow_eth_speeds Status of ethernet
 # TYPE starlink_dish_alert_slow_eth_speeds gauge
+starlink_dish_alert_slow_eth_speeds 0
 # HELP starlink_dish_alert_thermal_shutdown Status of thermal shutdown
 # TYPE starlink_dish_alert_thermal_shutdown gauge
+starlink_dish_alert_thermal_shutdown 0
 # HELP starlink_dish_alert_thermal_throttle Status of thermal throttling
 # TYPE starlink_dish_alert_thermal_throttle gauge
+starlink_dish_alert_thermal_throttle 0
 # HELP starlink_dish_alert_unexpected_location Status of location
 # TYPE starlink_dish_alert_unexpected_location gauge
-# HELP starlink_dish_backup_beam connected to backup beam
-# TYPE starlink_dish_backup_beam gauge
+starlink_dish_alert_unexpected_location 0
+# HELP starlink_dish_anti_rollback_version Starlink Dish Anti Rollback Version.
+# TYPE starlink_dish_anti_rollback_version counter
+starlink_dish_anti_rollback_version 0
+# HELP starlink_dish_boot_count Starlink Dish boot count.
+# TYPE starlink_dish_boot_count counter
+starlink_dish_boot_count 82
 # HELP starlink_dish_bore_sight_azimuth_deg azimuth in degrees
 # TYPE starlink_dish_bore_sight_azimuth_deg gauge
+starlink_dish_bore_sight_azimuth_deg 2.6375482082366943
 # HELP starlink_dish_bore_sight_elevation_deg elevation in degrees
 # TYPE starlink_dish_bore_sight_elevation_deg gauge
-# HELP starlink_dish_cell_id Cell ID dish is located in
-# TYPE starlink_dish_cell_id gauge
+starlink_dish_bore_sight_elevation_deg 62.60231018066406
 # HELP starlink_dish_currently_obstructed Status of view of the sky
 # TYPE starlink_dish_currently_obstructed gauge
+starlink_dish_currently_obstructed 0
+# HELP starlink_dish_dish_config Dish Config
+# TYPE starlink_dish_dish_config gauge
+starlink_dish_dish_config{level_dish_mode="TILT_LIKE_NORMAL",location_request_mode="NONE",power_save_mode="false",snow_melt_mode="AUTO"} 1
+# HELP starlink_dish_dish_stow_requested stow requested
+# TYPE starlink_dish_dish_stow_requested gauge
+starlink_dish_dish_stow_requested 0
 # HELP starlink_dish_downlink_throughput_bytes Amount of bandwidth in bytes per second download
 # TYPE starlink_dish_downlink_throughput_bytes gauge
+starlink_dish_downlink_throughput_bytes 8338.2763671875
+# HELP starlink_dish_eth_speed ethernet speed
+# TYPE starlink_dish_eth_speed untyped
+starlink_dish_eth_speed 1000
 # HELP starlink_dish_first_nonempty_slot_seconds Seconds to next non empty slot
 # TYPE starlink_dish_first_nonempty_slot_seconds gauge
+starlink_dish_first_nonempty_slot_seconds 0
 # HELP starlink_dish_fraction_obstruction_ratio Percentage of obstruction
 # TYPE starlink_dish_fraction_obstruction_ratio gauge
+starlink_dish_fraction_obstruction_ratio 0
+# HELP starlink_dish_gps_sats Number of GPS Sats.
+# TYPE starlink_dish_gps_sats gauge
+starlink_dish_gps_sats 13
+# HELP starlink_dish_gps_valid GPS Status.
+# TYPE starlink_dish_gps_valid gauge
+starlink_dish_gps_valid 1
 # HELP starlink_dish_info Running software versions and IDs of hardware
 # TYPE starlink_dish_info gauge
-# HELP starlink_dish_initial_gateway_id initial gateway id
-# TYPE starlink_dish_initial_gateway_id gauge
-# HELP starlink_dish_initial_satellite_id initial satellite id
-# TYPE starlink_dish_initial_satellite_id gauge
-# HELP starlink_dish_last_24h_obstructed_seconds Number of seconds view of sky has been obstructed in the last 24hours
-# TYPE starlink_dish_last_24h_obstructed_seconds gauge
+starlink_dish_info{bootcount="82",country_code="CA",device_id="ut01000000-00000000-00223ba3",hardware_version="rev3_proto2",manufactured_version="",software_version="8c03f1b9-de75-404b-87fd-7986892cdacb.uterm.release",utc_offset="-28799"} 1
+# HELP starlink_dish_info_debug Debug Dish Info
+# TYPE starlink_dish_info_debug gauge
+starlink_dish_info_debug{count_by_reason="map[]",count_by_reason_delta="map[]",last_count="0",last_reason="BOOT_REASON_UNKNOWN"} 1
+# HELP starlink_dish_is_dev Starlink Dish is Dev.
+# TYPE starlink_dish_is_dev gauge
+starlink_dish_is_dev 0
+# HELP starlink_dish_is_hit Starlink Dish is Hit.
+# TYPE starlink_dish_is_hit gauge
+starlink_dish_is_hit 0
+# HELP starlink_dish_outage_did_switch Starlink Dish Outage Information
+# TYPE starlink_dish_outage_did_switch gauge
+starlink_dish_outage_did_switch 0
+# HELP starlink_dish_outage_duration Starlink Dish Outage Information
+# TYPE starlink_dish_outage_duration gauge
+starlink_dish_outage_duration{cause="UNKNOWN",start_time="0"} 0
 # HELP starlink_dish_pop_ping_drop_ratio Percent of pings dropped
 # TYPE starlink_dish_pop_ping_drop_ratio gauge
+starlink_dish_pop_ping_drop_ratio 0
 # HELP starlink_dish_pop_ping_latency_seconds Latency of connection in seconds
 # TYPE starlink_dish_pop_ping_latency_seconds gauge
-# HELP starlink_dish_pop_rack_id pop rack id
-# TYPE starlink_dish_pop_rack_id gauge
+starlink_dish_pop_ping_latency_seconds 0.03871428593993187
 # HELP starlink_dish_prolonged_obstruction_duration_seconds Average in seconds of prolonged obstructions
 # TYPE starlink_dish_prolonged_obstruction_duration_seconds gauge
+starlink_dish_prolonged_obstruction_duration_seconds 0
 # HELP starlink_dish_prolonged_obstruction_interval_seconds Average prolonged obstruction interval in seconds
 # TYPE starlink_dish_prolonged_obstruction_interval_seconds gauge
+starlink_dish_prolonged_obstruction_interval_seconds NaN
+# HELP starlink_dish_prolonged_obstruction_valid Average prolonged obstruction is valid
+# TYPE starlink_dish_prolonged_obstruction_valid gauge
+starlink_dish_prolonged_obstruction_valid 0
 # HELP starlink_dish_scrape_duration_seconds Time to scrape metrics from starlink dish
 # TYPE starlink_dish_scrape_duration_seconds gauge
-# HELP starlink_dish_snr Signal strength of the connection
-# TYPE starlink_dish_snr gauge
-# HELP starlink_dish_state The current dishState of the Dish (Unknown, Booting, Searching, Connected).
-# TYPE starlink_dish_state gauge
-# HELP starlink_dish_time_to_slot_end_seconds Seconds left on current slot
-# TYPE starlink_dish_time_to_slot_end_seconds gauge
+starlink_dish_scrape_duration_seconds 0.01046954
+# HELP starlink_dish_software_partitions_equal Starlink Dish Software Partitions Equal.
+# TYPE starlink_dish_software_partitions_equal gauge
+starlink_dish_software_partitions_equal 0
 # HELP starlink_dish_up Was the last query of Starlink dish successful.
 # TYPE starlink_dish_up gauge
+starlink_dish_up 1
 # HELP starlink_dish_uplink_throughput_bytes Amount of bandwidth in bytes per second upload
 # TYPE starlink_dish_uplink_throughput_bytes gauge
+starlink_dish_uplink_throughput_bytes 24687.673828125
 # HELP starlink_dish_uptime_seconds Dish running time
-# TYPE starlink_dish_uptime_seconds gauge
+# TYPE starlink_dish_uptime_seconds counter
+starlink_dish_uptime_seconds 336420
 # HELP starlink_dish_valid_seconds Unknown
-# TYPE starlink_dish_valid_seconds gauge
-# HELP starlink_dish_wedge_abs_fraction_obstruction_ratio Percentage of Absolute fraction per wedge section
-# TYPE starlink_dish_wedge_abs_fraction_obstruction_ratio gauge
-# HELP starlink_dish_wedge_fraction_obstruction_ratio Percentage of obstruction per wedge section
-# TYPE starlink_dish_wedge_fraction_obstruction_ratio gauge
+# TYPE starlink_dish_valid_seconds counter
+starlink_dish_valid_seconds 335691
 ```
 
 ## Example Grafana Dashboard:
 
-https://grafana.com/grafana/dashboards/14337
+[dashboard.json](./dashboard/Starlink-Updated-1672475941956.json)
 
 <p align="center">
-	<img src="https://github.com/danopstech/starlink_exporter/raw/main/.docs/assets/screenshot.jpg" width="95%">
+	<img src="https://github.com/clarkzjw/starlink_exporter/raw/main/.docs/assets/screenshot.jpg" width="95%">
 </p>
