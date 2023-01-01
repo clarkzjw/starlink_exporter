@@ -26,6 +26,7 @@ func main() {
 	}
 	defer exporter.Conn.Close()
 	log.Infof("dish id: %s", exporter.DishID)
+	log.Infof("router id: %s", exporter.RouterID)
 
 	r := prometheus.NewRegistry()
 	r.MustRegister(exporter)
