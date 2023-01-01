@@ -109,6 +109,32 @@ var (
 		"Starlink Dish Software Partitions Equal.",
 		nil, nil,
 	)
+
+	dishMobilityClass = prometheus.NewDesc(
+		prometheus.BuildFQName(namespace, "dish", "mobility_class"),
+		"Dish mobility class",
+		[]string{"mobility_class"}, nil,
+	)
+
+	userClassOfService = prometheus.NewDesc(
+		prometheus.BuildFQName(namespace, "dish", "class_of_service"),
+		"User class of service",
+		[]string{"class_of_service"}, nil,
+	)
+
+	dishReadyState = prometheus.NewDesc(
+		prometheus.BuildFQName(namespace, "dish", "ready_state"),
+		"Dish ready states",
+		[]string{
+			"cady",
+			"scp",
+			"l1l2",
+			"xphy",
+			"aap",
+			"rf",
+		}, nil,
+	)
+
 	dishIsDev = prometheus.NewDesc(
 		prometheus.BuildFQName(namespace, "dish", "is_dev"),
 		"Starlink Dish is Dev.",
@@ -397,6 +423,9 @@ func (e *Exporter) Describe(ch chan<- *prometheus.Desc) {
 	ch <- dishConfig
 
 	// DeviceInfo
+	ch <- dishMobilityClass
+	ch <- userClassOfService
+	ch <- dishReadyState
 	ch <- dishInfo
 	ch <- SoftwarePartitionsEqual
 	ch <- dishIsDev
@@ -506,9 +535,6 @@ func (e *Exporter) collectNetworkInterface(ch chan<- prometheus.Metric) bool {
 				fmt.Sprint(iface.GetTxStats().GetPackets()),
 				iface.GetEthernet().GetDuplex().String(),
 			)
-		} else if iface.GetWifi() != nil {
-			//channel := iface.GetWifi().GetChannel()
-			//fmt.Printf("channel: %d\n", channel)
 		}
 	}
 	return true
@@ -609,6 +635,24 @@ func (e *Exporter) collectDishStatus(ch chan<- prometheus.Metric) bool {
 	dishS := dishStatus.GetDeviceState()
 	dishG := dishStatus.GetGpsStats()
 	dishO := dishStatus.GetOutage()
+	dishR := dishStatus.GetReadyStates()
+
+	ch <- prometheus.MustNewConstMetric(
+		dishReadyState, prometheus.GaugeValue, 1.00,
+		fmt.Sprint(dishR.GetCady()),
+		fmt.Sprint(dishR.GetScp()),
+		fmt.Sprint(dishR.GetL1L2()),
+		fmt.Sprint(dishR.GetXphy()),
+		fmt.Sprint(dishR.GetAap()),
+		fmt.Sprint(dishR.GetRf()))
+
+	ch <- prometheus.MustNewConstMetric(
+		userClassOfService, prometheus.GaugeValue, 1.00,
+		dishStatus.GetClassOfService().String())
+
+	ch <- prometheus.MustNewConstMetric(
+		dishMobilityClass, prometheus.GaugeValue, 1.00,
+		dishStatus.GetMobilityClass().String())
 
 	// DeviceInfo
 	ch <- prometheus.MustNewConstMetric(
