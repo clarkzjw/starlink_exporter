@@ -369,7 +369,7 @@ func New(address string) (*Exporter, error) {
 
 	routerCtx, routerConnCancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer routerConnCancel()
-	routerConn, err := grpc.DialContext(ctx, RouterAddress, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
+	routerConn, err := grpc.DialContext(routerCtx, RouterAddress, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
 	if err != nil {
 		return nil, fmt.Errorf("error creating underlying gRPC connection to starlink router: %s", err.Error())
 	}
