@@ -4,6 +4,13 @@
 </p>
 
 ---
+
+**Goal**: I will try to keep this fork updated as long as I still have access to the dish from our research lab. 
+
+Original repository: https://github.com/danopstech/starlink_exporter
+
+---
+
 A [Starlink](https://www.starlink.com/) exporter for Prometheus. Not affiliated with or acting on behalf of Starlink(™)
 
 [![goreleaser](https://github.com/clarkzjw/starlink_exporter/actions/workflows/release.yaml/badge.svg)](https://github.com/clarkzjw/starlink_exporter/actions/workflows/release.yaml)
