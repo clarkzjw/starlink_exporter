@@ -9,6 +9,8 @@
 
 Original repository: https://github.com/danopstech/starlink_exporter
 
+**Status**: As of 2023/01/16, this repo is updated per `367d68e9-6a60-4a21-878d-00e1f9b89c56.uterm.release` on a Starlink RV dish.
+
 ---
 
 A [Starlink](https://www.starlink.com/) exporter for Prometheus. Not affiliated with or acting on behalf of Starlink(™)
