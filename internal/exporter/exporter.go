@@ -359,19 +359,12 @@ type Exporter struct {
 }
 
 // New returns an initialized Exporter.
-func New(address string) (*Exporter, error) {
+func New(address string, isRouter bool) (*Exporter, error) {
 	ctx, connCancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer connCancel()
 	conn, err := grpc.DialContext(ctx, address, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
 	if err != nil {
 		return nil, fmt.Errorf("error creating underlying gRPC connection to starlink dish: %s", err.Error())
-	}
-
-	routerCtx, routerConnCancel := context.WithTimeout(context.Background(), time.Second*3)
-	defer routerConnCancel()
-	routerConn, err := grpc.DialContext(routerCtx, RouterAddress, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
-	if err != nil {
-		return nil, fmt.Errorf("error creating underlying gRPC connection to starlink router: %s", err.Error())
 	}
 
 	ctx, HandleCancel := context.WithTimeout(context.Background(), time.Second*1)
@@ -385,24 +378,41 @@ func New(address string) (*Exporter, error) {
 		return nil, fmt.Errorf("could not collect inital information from dish: %s", err.Error())
 	}
 
-	routerCtx, routerHandleCancel := context.WithTimeout(context.Background(), time.Second*1)
-	defer routerHandleCancel()
-	routerResp, err := device.NewDeviceClient(routerConn).Handle(routerCtx, &device.Request{
-		Request: &device.Request_GetDeviceInfo{},
-	})
-	if err != nil {
-		return nil, fmt.Errorf("could not collect inital information from router: %s", err.Error())
+	if isRouter {
+		routerCtx, routerConnCancel := context.WithTimeout(context.Background(), time.Second*3)
+		defer routerConnCancel()
+		routerConn, err := grpc.DialContext(routerCtx, RouterAddress, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
+		if err != nil {
+			return nil, fmt.Errorf("error creating underlying gRPC connection to starlink router: %s", err.Error())
+		}
+		routerCtx, routerHandleCancel := context.WithTimeout(context.Background(), time.Second*1)
+		defer routerHandleCancel()
+		routerResp, err := device.NewDeviceClient(routerConn).Handle(routerCtx, &device.Request{
+			Request: &device.Request_GetDeviceInfo{},
+		})
+		if err != nil {
+			return nil, fmt.Errorf("could not collect inital information from router: %s", err.Error())
+		}
+		return &Exporter{
+			Conn:         conn,
+			RouterConn:   routerConn,
+			Client:       device.NewDeviceClient(conn),
+			RouterClient: device.NewDeviceClient(routerConn),
+			DishID:       resp.GetGetDeviceInfo().GetDeviceInfo().GetId(),
+			RouterID:     routerResp.GetGetDeviceInfo().GetDeviceInfo().GetId(),
+			CountryCode:  resp.GetGetDeviceInfo().GetDeviceInfo().GetCountryCode(),
+		}, nil
+	} else {
+		return &Exporter{
+			Conn:         conn,
+			RouterConn:   nil,
+			Client:       device.NewDeviceClient(conn),
+			RouterClient: nil,
+			DishID:       resp.GetGetDeviceInfo().GetDeviceInfo().GetId(),
+			RouterID:     "",
+			CountryCode:  resp.GetGetDeviceInfo().GetDeviceInfo().GetCountryCode(),
+		}, nil
 	}
-
-	return &Exporter{
-		Conn:         conn,
-		RouterConn:   routerConn,
-		Client:       device.NewDeviceClient(conn),
-		RouterClient: device.NewDeviceClient(routerConn),
-		DishID:       resp.GetGetDeviceInfo().GetDeviceInfo().GetId(),
-		RouterID:     routerResp.GetGetDeviceInfo().GetDeviceInfo().GetId(),
-		CountryCode:  resp.GetGetDeviceInfo().GetDeviceInfo().GetCountryCode(),
-	}, nil
 }
 
 // Describe describes all the metrics ever exported by the Starlink exporter. It
@@ -488,11 +498,14 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 	start := time.Now()
 
 	ok := e.collectDishStatus(ch)
-	ok = ok && e.collectRouterStatus(ch)
 	ok = ok && e.collectDishObstructions(ch)
 	ok = ok && e.collectDishAlerts(ch)
 	ok = ok && e.collectDishConfig(ch)
-	ok = ok && e.collectNetworkInterface(ch)
+
+	if e.RouterClient != nil {
+		ok = ok && e.collectRouterStatus(ch)
+		ok = ok && e.collectNetworkInterface(ch)
+	}
 
 	if ok {
 		ch <- prometheus.MustNewConstMetric(

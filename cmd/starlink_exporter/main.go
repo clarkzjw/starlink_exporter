@@ -18,18 +18,19 @@ const (
 func main() {
 	port := flag.String("port", "9817", "listening port to expose metrics on")
 	address := flag.String("address", exporter.DishAddress, "IP address and port to reach dish")
+	isRouter := flag.Bool("router", false, "enable router gRPC monitoring")
 	flag.Parse()
 
-	exporter, err := exporter.New(*address)
+	exporterClient, err := exporter.New(*address, *isRouter)
 	if err != nil {
-		log.Fatalf("could not start exporter: %s", err.Error())
+		log.Fatalf("could not start exporterClient: %s", err.Error())
 	}
-	defer exporter.Conn.Close()
-	log.Infof("dish id: %s", exporter.DishID)
-	log.Infof("router id: %s", exporter.RouterID)
+	defer exporterClient.Conn.Close()
+	log.Infof("dish id: %s", exporterClient.DishID)
+	log.Infof("router id: %s", exporterClient.RouterID)
 
 	r := prometheus.NewRegistry()
-	r.MustRegister(exporter)
+	r.MustRegister(exporterClient)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		_, _ = w.Write([]byte(`<html>
@@ -43,7 +44,7 @@ func main() {
 	})
 
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
-		switch exporter.Conn.GetState() {
+		switch exporterClient.Conn.GetState() {
 		case 0, 2:
 			// Idle or Ready
 			w.WriteHeader(http.StatusOK)
@@ -54,7 +55,7 @@ func main() {
 			// Shutdown
 			w.WriteHeader(http.StatusInternalServerError)
 		}
-		_, _ = fmt.Fprintf(w, "%s\n", exporter.Conn.GetState())
+		_, _ = fmt.Fprintf(w, "%s\n", exporterClient.Conn.GetState())
 	})
 
 	http.Handle(metricsPath, promhttp.HandlerFor(r, promhttp.HandlerOpts{}))
