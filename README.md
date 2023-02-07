@@ -9,7 +9,7 @@
 
 Original repository: https://github.com/danopstech/starlink_exporter
 
-**Status**: As of 2023/01/16, this repo is updated per `367d68e9-6a60-4a21-878d-00e1f9b89c56.uterm.release` on a Starlink RV dish.
+**Status**: As of 2023/02/06, this repo is updated per `191e4dfa-d63a-46b1-a73b-9fa907733864.uterm.release` on a Starlink RV dish.
 
 ---
 
