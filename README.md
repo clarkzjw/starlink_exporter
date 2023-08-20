@@ -201,7 +201,7 @@ starlink_dish_valid_seconds 335691
 
 ## Example Grafana Dashboard:
 
-[dashboard.json](./dashboard/Starlink-Updated-1672475941956.json)
+[dashboard.json](./docker/config/grafana/provisioning/dashboards/Starlink.json)
 
 <p align="center">
 	<img src="https://github.com/clarkzjw/starlink_exporter/raw/main/.docs/assets/screenshot.jpg" width="95%">
