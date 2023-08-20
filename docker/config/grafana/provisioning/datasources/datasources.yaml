@@ -1,0 +1,27 @@
+apiVersion: 1
+
+deleteDatasources:
+- name: Influxdb
+  orgId: 1
+
+datasources:
+- name: Prometheus
+  type: prometheus
+  access: proxy
+  orgId: 1
+  url: http://prometheus:9090
+  version: 1
+  editable: false
+- name: Influxdb
+  type: "influxdb"
+  access: "proxy"
+  url: "http://influxdb:8086"
+  editable: true
+  secureJsonData:
+    token: "starlinkexporter"
+  jsonData:
+    version: Flux
+    organization: "starlink"
+    defaultBucket: telegraf
+    tlsSkipVerify: true
+    timeInterval: "1m"
