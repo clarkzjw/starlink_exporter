@@ -123,7 +123,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "builder",
-          "expr": "starlink_dish_uptime_seconds{instance=\"starlink_exporter:9817\"}",
+          "expr": "starlink_dish_uptime_seconds{instance=\"$DishID\"}",
           "instant": false,
           "range": true,
           "refId": "A"
@@ -189,7 +189,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "builder",
-          "expr": "starlink_dish_gps_sats{instance=\"starlink_exporter:9817\"}",
+          "expr": "starlink_dish_gps_sats{instance=\"$DishID\"}",
           "instant": false,
           "range": true,
           "refId": "A"
@@ -269,7 +269,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "builder",
-          "expr": "starlink_dish_currently_obstructed{instance=\"starlink_exporter:9817\"}",
+          "expr": "starlink_dish_currently_obstructed{instance=\"$DishID\"}",
           "instant": false,
           "range": true,
           "refId": "A"
@@ -349,7 +349,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "builder",
-          "expr": "starlink_dish_alert_roaming{instance=\"starlink_exporter:9817\"}",
+          "expr": "starlink_dish_alert_roaming{instance=\"$DishID\"}",
           "instant": false,
           "range": true,
           "refId": "A"
@@ -441,7 +441,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "builder",
-          "expr": "starlink_dish_gps_sats{instance=\"starlink_exporter:9817\"}",
+          "expr": "starlink_dish_gps_sats{instance=\"$DishID\"}",
           "instant": false,
           "range": true,
           "refId": "A"
@@ -561,7 +561,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "builder",
-          "expr": "starlink_dish_pop_ping_drop_ratio{instance=\"starlink_exporter:9817\"} * 100",
+          "expr": "starlink_dish_pop_ping_drop_ratio{instance=\"$DishID\"} * 100",
           "instant": false,
           "range": true,
           "refId": "A"
@@ -626,8 +626,8 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "editorMode": "code",
-          "expr": "starlink_dish_info{instance=\"starlink_exporter:9817\"}",
+          "editorMode": "builder",
+          "expr": "starlink_dish_info{instance=\"$DishID\"}",
           "instant": false,
           "legendFormat": "{{ country_code }}",
           "range": true,
@@ -693,8 +693,8 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "editorMode": "code",
-          "expr": "starlink_dish_info{}",
+          "editorMode": "builder",
+          "expr": "starlink_dish_info{instance=\"$DishID\"}",
           "instant": false,
           "legendFormat": "{{ device_id }}",
           "range": true,
@@ -761,7 +761,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "builder",
-          "expr": "starlink_dish_info{instance=\"starlink_exporter:9817\"}",
+          "expr": "starlink_dish_info{instance=\"$DishID\"}",
           "instant": false,
           "legendFormat": "{{ hardware_version }}",
           "range": true,
@@ -828,7 +828,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "builder",
-          "expr": "starlink_dish_info{instance=\"starlink_exporter:9817\"}",
+          "expr": "starlink_dish_info{instance=\"$DishID\"}",
           "instant": false,
           "legendFormat": "{{ software_version }}",
           "range": true,
@@ -896,7 +896,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "builder",
-          "expr": "starlink_dish_dish_config{instance=\"starlink_exporter:9817\"}",
+          "expr": "starlink_dish_dish_config{instance=\"$DishID\"}",
           "instant": false,
           "legendFormat": "{{ location_request_mode }}",
           "range": true,
@@ -963,7 +963,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "builder",
-          "expr": "starlink_dish_mobility_class{instance=\"starlink_exporter:9817\"}",
+          "expr": "starlink_dish_mobility_class{instance=\"$DishID\"}",
           "instant": false,
           "legendFormat": "{{ mobility_class }}",
           "range": true,
@@ -1027,7 +1027,7 @@
           },
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "starlink_dish_boot_count{instance=\"starlink_exporter:9817\"}",
+          "expr": "starlink_dish_boot_count{instance=\"$DishID\"}",
           "instant": true,
           "range": false,
           "refId": "A"
@@ -1180,7 +1180,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "builder",
-          "expr": "avg_over_time(starlink_dish_pop_ping_latency_seconds{instance=\"starlink_exporter:9817\"}[1m])",
+          "expr": "avg_over_time(starlink_dish_pop_ping_latency_seconds{instance=\"$DishID\"}[1m])",
           "hide": false,
           "instant": false,
           "legendFormat": "Latency",
@@ -1335,7 +1335,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "builder",
-          "expr": "starlink_dish_uplink_throughput_bytes{instance=\"starlink_exporter:9817\"} / 1000000 * -1",
+          "expr": "starlink_dish_uplink_throughput_bytes{instance=\"$DishID\"} / 1000000 * -1",
           "instant": false,
           "legendFormat": "Upload",
           "range": true,
@@ -1347,7 +1347,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "builder",
-          "expr": "starlink_dish_downlink_throughput_bytes{instance=\"starlink_exporter:9817\"} / 1000000",
+          "expr": "starlink_dish_downlink_throughput_bytes{instance=\"$DishID\"} / 1000000",
           "hide": false,
           "instant": false,
           "legendFormat": "Download",
@@ -1367,9 +1367,14 @@
     "list": [
       {
         "allValue": "*",
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": "starlink_exporter:9817",
+          "value": "starlink_exporter:9817"
+        },
         "datasource": {
-          "uid": "${DS_PROMETHEUS}"
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
         },
         "definition": "label_values(starlink_dish_up, instance)",
         "hide": 0,
@@ -1411,6 +1416,6 @@
   "timezone": "",
   "title": "Starlink",
   "uid": "GG3mnflGx",
-  "version": 6,
+  "version": 8,
   "weekStart": ""
 }

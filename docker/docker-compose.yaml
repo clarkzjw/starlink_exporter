@@ -28,7 +28,7 @@ services:
     restart: always
     user: "root"
     ports:
-      - "3001:3000"
+      - "3000:3000"
     environment:
       - GF_INSTALL_PLUGINS=grafana-clock-panel, grafana-simple-json-datasource, ae3e-plotly-panel
       - GF_LOG_CONSOLE_LEVEL=warn
@@ -43,7 +43,7 @@ services:
   influxdb:
     image: "influxdb:2.7"
     ports:
-      - "8087:8086"
+      - "8086:8086"
     restart: always
     volumes:
       - ./data/influxdb:/var/lib/influxdb2
