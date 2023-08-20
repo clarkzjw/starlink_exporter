@@ -1,10 +1,5 @@
 #/bin/bash
 
-protoc --go_out=pkg/ --go-grpc_out=pkg/ \
-       --go_opt=Mspacex/api/common/protobuf/internal.proto=spacex.com/api/common/protobuf/internal \
-       --go-grpc_opt=Mspacex/api/common/protobuf/internal.proto=spacex.com/api/common/protobuf/internal \
-       --descriptor_set_in=protoset/dish.protoset spacex/api/common/protobuf/internal.proto
-
 protoc --go_out=pkg/ --go-grpc_out=pkg/ --descriptor_set_in=protoset/dish.protoset spacex/api/common/status/status.proto
 protoc --go_out=pkg/ --go-grpc_out=pkg/ --descriptor_set_in=protoset/dish.protoset spacex/api/device/command.proto
 protoc --go_out=pkg/ --go-grpc_out=pkg/ --descriptor_set_in=protoset/dish.protoset spacex/api/device/common.proto
@@ -36,7 +31,7 @@ protoc --go_out=pkg/  --go-grpc_out=pkg/ \
 
 
 protoc --go_out=pkg/  --go-grpc_out=pkg/ --descriptor_set_in=protoset/dish.protoset spacex/api/device/wifi_config.proto
-
+protoc --go_out=pkg/  --go-grpc_out=pkg/ --descriptor_set_in=protoset/dish.protoset spacex/api/device/wifi_util.proto
 
 protoc --go_out=pkg/  --go-grpc_out=pkg/ \
        --go_opt=Mspacex/api/telemetron/public/common/time.proto=spacex.com/api/telemetron/public/common/time \
