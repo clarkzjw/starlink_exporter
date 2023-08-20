@@ -20,6 +20,17 @@ const (
 )
 
 var (
+	// Location Info
+	dishLocationInfo = prometheus.NewDesc(
+		prometheus.BuildFQName(namespace, "dish", "location_info"),
+		"Dish Location Info (GPS/Starlink)",
+		[]string{
+			"location_source",
+			"lat",
+			"lon",
+			"alt"}, nil,
+	)
+
 	// DeviceInfo
 	dishInfo = prometheus.NewDesc(
 		prometheus.BuildFQName(namespace, "dish", "info"),
@@ -395,6 +406,7 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 	start := time.Now()
 
 	ok := e.collectDishStatus(ch)
+	ok = ok && e.collectDishLocationStatus(ch)
 	ok = ok && e.collectDishObstructions(ch)
 	ok = ok && e.collectDishAlerts(ch)
 	ok = ok && e.collectDishConfig(ch)
@@ -434,6 +446,40 @@ func (e *Exporter) collectDishConfig(ch chan<- prometheus.Metric) bool {
 		dishC.GetDishConfig().GetLevelDishMode().String(),
 		fmt.Sprint(dishC.GetDishConfig().GetPowerSaveMode()),
 	)
+	return true
+}
+
+func (e *Exporter) collectDishLocationStatus(ch chan<- prometheus.Metric) bool {
+	req := &device.Request{
+		Request: &device.Request_GetLocation{},
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*1)
+	defer cancel()
+
+	resp, err := e.Client.Handle(ctx, req)
+	if err != nil {
+		log.Errorf("failed to collect dish location: %s", err.Error())
+		// don't return false since location service might not be enabled
+		return true
+	}
+
+	dishStatus := resp.GetGetLocation()
+	locationSource := dishStatus.GetSource()
+
+	lla := dishStatus.GetLla()
+	lat := lla.GetLat()
+	lon := lla.GetLon()
+	alt := lla.GetAlt()
+
+	ch <- prometheus.MustNewConstMetric(
+		dishLocationInfo, prometheus.GaugeValue, 1.00,
+		locationSource.String(),
+		fmt.Sprint(lat),
+		fmt.Sprint(lon),
+		fmt.Sprint(alt),
+	)
+
 	return true
 }
 
