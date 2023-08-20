@@ -30,7 +30,8 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - GF_INSTALL_PLUGINS=grafana-clock-panel, grafana-simple-json-datasource, ae3e-plotly-panel
+      - GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=alexandra-trackmap-panel
+      - GF_INSTALL_PLUGINS=https://github.com/alexandrainst/alexandra-trackmap-panel/archive/refs/heads/master.zip;grafana-clock-panel, grafana-simple-json-datasource, ae3e-plotly-panel
       - GF_LOG_CONSOLE_LEVEL=warn
     volumes:
       - type: bind
