@@ -42,6 +42,124 @@
   "liveNow": false,
   "panels": [
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 118,
+      "options": {
+        "ant": {
+          "color": "rgba(0, 100, 255, 1)",
+          "colorOverridesByLabel": [],
+          "delay": 400,
+          "hardwareAccelerated": true,
+          "labelName": "",
+          "paused": false,
+          "pulseColor": "rgba(0, 100, 255, 0.2)",
+          "reverse": false,
+          "weight": 5
+        },
+        "coordinates": {
+          "customLatitudeColumnName": "",
+          "customLongitudeColumnName": ""
+        },
+        "discardZeroOrNull": true,
+        "displayHoverMarker": true,
+        "heat": {
+          "maxValue": 1
+        },
+        "hex": {
+          "colorRangeFrom": "#f7fbff",
+          "colorRangeTo": "#ff0000",
+          "opacity": 0.6,
+          "radiusRangeFrom": 5,
+          "radiusRangeTo": 12
+        },
+        "hoverMarker": {
+          "color": "rgb(255, 255, 255)",
+          "fillColor": "rgb(65, 105, 225)",
+          "fillOpacity": 1,
+          "radius": 7,
+          "weight": 2
+        },
+        "map": {
+          "centerLatitude": 56.17203,
+          "centerLongitude": 10.1865203,
+          "centerMethod": "last",
+          "tileAttribution": "&copy <a href=\"http://osm.org/copyright\">OpenStreetMap</a> contributors",
+          "tileSubdomains": [
+            "a",
+            "b",
+            "c"
+          ],
+          "tileUrlSchema": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+          "useBoundsInQuery": true,
+          "zoom": 14,
+          "zoomToDataBounds": false
+        },
+        "marker": {
+          "alwaysShowTooltips": false,
+          "defaultHtml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"25px\" height=\"25px\" viewBox=\"0 0 25 25\" version=\"1.1\"><g id=\"surface1\"><path style=\" stroke:none;fill-rule:nonzero;fill:rgb(100%,50%,50%);fill-opacity:0.8;\" d=\"M 12.515625 0 L 12.480469 0 C 8.164062 0 4.652344 3.511719 4.652344 7.828125 C 4.652344 10.65625 5.941406 14.386719 8.480469 18.921875 C 10.363281 22.285156 12.273438 24.859375 12.292969 24.882812 C 12.347656 24.957031 12.429688 24.996094 12.519531 24.996094 C 12.523438 24.996094 12.523438 24.996094 12.527344 24.996094 C 12.617188 24.996094 12.703125 24.949219 12.753906 24.871094 C 12.773438 24.84375 14.667969 21.980469 16.539062 18.476562 C 19.066406 13.75 20.347656 10.164062 20.347656 7.828125 C 20.347656 3.511719 16.832031 0 12.515625 0 Z M 16.128906 8.019531 C 16.128906 10.019531 14.5 11.648438 12.5 11.648438 C 10.496094 11.648438 8.867188 10.019531 8.867188 8.019531 C 8.867188 6.015625 10.496094 4.386719 12.5 4.386719 C 14.5 4.386719 16.128906 6.015625 16.128906 8.019531 Z M 16.128906 8.019531 \"/></g></svg>",
+          "iconOffset": "",
+          "labelName": "",
+          "markerHtmlByLabel": [],
+          "popupOffset": "",
+          "showOnlyLastMarker": false,
+          "size": 25,
+          "sizeLast": 25,
+          "tooltipOffset": "",
+          "useHTMLForMarkers": false,
+          "useSecondaryIconForAllMarkers": false,
+          "useSecondaryIconForLastMarker": false
+        },
+        "viewType": "marker"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "builder",
+          "expr": "starlink_dish_location_info{instance=\"$DishID\"}",
+          "instant": false,
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Dish Location",
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "keepLabels": [
+              "alt",
+              "lat",
+              "lon"
+            ]
+          }
+        }
+      ],
+      "type": "alexandra-trackmap-panel"
+    },
+    {
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      },
+      "id": 117,
+      "title": "Location",
+      "type": "row"
+    },
+    {
       "collapsed": false,
       "datasource": {
         "type": "datasource",
@@ -51,7 +169,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 11
       },
       "id": 53,
       "panels": [],
@@ -96,7 +214,7 @@
         "h": 2,
         "w": 2,
         "x": 0,
-        "y": 1
+        "y": 12
       },
       "id": 41,
       "interval": "1m",
@@ -163,7 +281,7 @@
         "h": 2,
         "w": 3,
         "x": 2,
-        "y": 1
+        "y": 12
       },
       "id": 70,
       "options": {
@@ -243,7 +361,7 @@
         "h": 2,
         "w": 3,
         "x": 5,
-        "y": 1
+        "y": 12
       },
       "id": 72,
       "options": {
@@ -323,7 +441,7 @@
         "h": 2,
         "w": 2,
         "x": 8,
-        "y": 1
+        "y": 12
       },
       "id": 57,
       "options": {
@@ -419,7 +537,7 @@
         "h": 8,
         "w": 8,
         "x": 10,
-        "y": 1
+        "y": 12
       },
       "id": 55,
       "options": {
@@ -539,7 +657,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 1
+        "y": 12
       },
       "id": 78,
       "options": {
@@ -601,7 +719,7 @@
         "h": 2,
         "w": 3,
         "x": 0,
-        "y": 3
+        "y": 14
       },
       "id": 60,
       "options": {
@@ -668,7 +786,7 @@
         "h": 2,
         "w": 7,
         "x": 3,
-        "y": 3
+        "y": 14
       },
       "id": 62,
       "options": {
@@ -735,7 +853,7 @@
         "h": 2,
         "w": 3,
         "x": 0,
-        "y": 5
+        "y": 16
       },
       "id": 64,
       "options": {
@@ -802,7 +920,7 @@
         "h": 2,
         "w": 7,
         "x": 3,
-        "y": 5
+        "y": 16
       },
       "id": 66,
       "options": {
@@ -870,7 +988,7 @@
         "h": 2,
         "w": 3,
         "x": 0,
-        "y": 7
+        "y": 18
       },
       "id": 86,
       "options": {
@@ -937,7 +1055,7 @@
         "h": 2,
         "w": 4,
         "x": 3,
-        "y": 7
+        "y": 18
       },
       "id": 115,
       "options": {
@@ -1000,7 +1118,7 @@
         "h": 2,
         "w": 3,
         "x": 7,
-        "y": 7
+        "y": 18
       },
       "id": 68,
       "options": {
@@ -1156,7 +1274,7 @@
         "h": 11,
         "w": 10,
         "x": 0,
-        "y": 9
+        "y": 20
       },
       "id": 8,
       "interval": "1s",
@@ -1311,7 +1429,7 @@
         "h": 11,
         "w": 14,
         "x": 10,
-        "y": 9
+        "y": 20
       },
       "id": 116,
       "interval": "1s",
@@ -1368,7 +1486,7 @@
       {
         "allValue": "*",
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "starlink_exporter:9817",
           "value": "starlink_exporter:9817"
         },
@@ -1416,6 +1534,6 @@
   "timezone": "",
   "title": "Starlink",
   "uid": "GG3mnflGx",
-  "version": 8,
+  "version": 9,
   "weekStart": ""
 }
