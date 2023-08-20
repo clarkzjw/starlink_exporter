@@ -28,7 +28,7 @@ services:
     restart: always
     user: "root"
     ports:
-      - "3000:3000"
+      - "3001:3000"
     environment:
       - GF_INSTALL_PLUGINS=grafana-clock-panel, grafana-simple-json-datasource, ae3e-plotly-panel
       - GF_LOG_CONSOLE_LEVEL=warn
@@ -43,7 +43,7 @@ services:
   influxdb:
     image: "influxdb:2.7"
     ports:
-      - "8086:8086"
+      - "8087:8086"
     restart: always
     volumes:
       - ./data/influxdb:/var/lib/influxdb2
@@ -51,7 +51,7 @@ services:
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_INIT_USERNAME=admin
-      - DOCKER_INFLUXDB_INIT_PASSWORD=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=starlinkadmin
       - DOCKER_INFLUXDB_INIT_ORG=starlink
       - DOCKER_INFLUXDB_INIT_BUCKET=telegraf
       - DOCKER_INFLUXDB_INIT_RETENTION=360d

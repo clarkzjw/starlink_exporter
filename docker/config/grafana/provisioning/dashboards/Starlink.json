@@ -1,51 +1,12 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_PROMETHEUS",
-      "label": "Prometheus",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    }
-  ],
-  "__requires": [
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "8.0.3"
-    },
-    {
-      "type": "panel",
-      "id": "graph",
-      "name": "Graph (old)",
-      "version": ""
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "stat",
-      "name": "Stat",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -56,10 +17,8 @@
   },
   "description": "Starlink dish metrics",
   "editable": true,
-  "gnetId": null,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "id": null,
-  "iteration": 1673566701054,
   "links": [
     {
       "icon": "info",
@@ -80,749 +39,39 @@
       "url": "http://192.168.100.1/support/statistics"
     }
   ],
+  "liveNow": false,
   "panels": [
     {
-      "collapsed": true,
-      "datasource": null,
+      "collapsed": false,
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
         "y": 0
       },
-      "id": 92,
-      "panels": [
-        {
-          "datasource": "${DS_PROMETHEUS}",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
-              },
-              "unit": "s"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 2,
-            "w": 2,
-            "x": 0,
-            "y": 1
-          },
-          "id": 104,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "text": {},
-            "textMode": "auto"
-          },
-          "pluginVersion": "8.0.3",
-          "targets": [
-            {
-              "exemplar": true,
-              "expr": "starlink_router_uptime_s{instance=\"$DishID\"}",
-              "instant": true,
-              "interval": "",
-              "legendFormat": "",
-              "queryType": "randomWalk",
-              "refId": "A"
-            }
-          ],
-          "title": "Uptime",
-          "type": "stat"
-        },
-        {
-          "datasource": "${DS_PROMETHEUS}",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 2,
-            "w": 3,
-            "x": 2,
-            "y": 1
-          },
-          "id": 94,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "text": {},
-            "textMode": "name"
-          },
-          "pluginVersion": "8.0.3",
-          "targets": [
-            {
-              "exemplar": true,
-              "expr": "starlink_router_info{instance=\"$DishID\"}",
-              "instant": true,
-              "interval": "",
-              "legendFormat": "{{ country_code }}",
-              "queryType": "randomWalk",
-              "refId": "A"
-            }
-          ],
-          "title": "Country Code",
-          "type": "stat"
-        },
-        {
-          "datasource": "${DS_PROMETHEUS}",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 2,
-            "w": 5,
-            "x": 5,
-            "y": 1
-          },
-          "id": 96,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "text": {},
-            "textMode": "name"
-          },
-          "pluginVersion": "8.0.3",
-          "targets": [
-            {
-              "exemplar": true,
-              "expr": "starlink_router_info{instance=\"$DishID\"}",
-              "instant": true,
-              "interval": "",
-              "legendFormat": "{{ id }}",
-              "queryType": "randomWalk",
-              "refId": "A"
-            }
-          ],
-          "title": "Router ID",
-          "type": "stat"
-        },
-        {
-          "datasource": "${DS_PROMETHEUS}",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 2,
-            "w": 3,
-            "x": 10,
-            "y": 1
-          },
-          "id": 98,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "text": {},
-            "textMode": "name"
-          },
-          "pluginVersion": "8.0.3",
-          "targets": [
-            {
-              "exemplar": true,
-              "expr": "starlink_router_info{instance=\"$DishID\"}",
-              "instant": true,
-              "interval": "",
-              "legendFormat": "{{ hardware_version }}",
-              "queryType": "randomWalk",
-              "refId": "A"
-            }
-          ],
-          "title": "Hardware Version",
-          "type": "stat"
-        },
-        {
-          "datasource": "${DS_PROMETHEUS}",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 2,
-            "w": 4,
-            "x": 13,
-            "y": 1
-          },
-          "id": 100,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "text": {},
-            "textMode": "name"
-          },
-          "pluginVersion": "8.0.3",
-          "targets": [
-            {
-              "exemplar": true,
-              "expr": "starlink_router_info{instance=\"$DishID\"}",
-              "instant": true,
-              "interval": "",
-              "legendFormat": "{{ software_version }}",
-              "queryType": "randomWalk",
-              "refId": "A"
-            }
-          ],
-          "title": "Software Version",
-          "type": "stat"
-        },
-        {
-          "datasource": "${DS_PROMETHEUS}",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 2,
-            "w": 4,
-            "x": 17,
-            "y": 1
-          },
-          "id": 102,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "text": {},
-            "textMode": "name"
-          },
-          "pluginVersion": "8.0.3",
-          "targets": [
-            {
-              "exemplar": true,
-              "expr": "starlink_router_ipv4_wan_address{instance=\"$DishID\"}",
-              "instant": true,
-              "interval": "",
-              "legendFormat": "{{ ipv4_wan_address }}",
-              "queryType": "randomWalk",
-              "refId": "A"
-            }
-          ],
-          "title": "IPv4 WAN Address",
-          "type": "stat"
-        },
-        {
-          "datasource": "${DS_PROMETHEUS}",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 2,
-            "w": 3,
-            "x": 21,
-            "y": 1
-          },
-          "id": 108,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "text": {},
-            "textMode": "name"
-          },
-          "pluginVersion": "8.0.3",
-          "targets": [
-            {
-              "exemplar": true,
-              "expr": "starlink_router_info{instance=\"$DishID\"}",
-              "instant": true,
-              "interval": "",
-              "legendFormat": "{{ boot_count }}",
-              "queryType": "randomWalk",
-              "refId": "A"
-            }
-          ],
-          "title": "Boot Count",
-          "type": "stat"
-        },
-        {
-          "datasource": "${DS_PROMETHEUS}",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 21,
-            "x": 0,
-            "y": 3
-          },
-          "id": 106,
-          "options": {
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "right"
-            },
-            "tooltip": {
-              "mode": "single"
-            }
-          },
-          "targets": [
-            {
-              "exemplar": true,
-              "expr": "starlink_router_router_ping_latency_ms{instance=\"$DishID\"}",
-              "interval": "",
-              "legendFormat": "Router Ping Latency",
-              "queryType": "randomWalk",
-              "refId": "A"
-            },
-            {
-              "exemplar": true,
-              "expr": "starlink_router_router_pop_ping_latency_ms{instance=\"$DishID\"}",
-              "hide": false,
-              "interval": "",
-              "legendFormat": "Router POP Ping Latency",
-              "refId": "B"
-            },
-            {
-              "exemplar": true,
-              "expr": "starlink_router_router_to_dish_ping_latency_ms{instance=\"$DishID\"}",
-              "hide": false,
-              "interval": "",
-              "legendFormat": "Router To Dish Latency",
-              "refId": "C"
-            }
-          ],
-          "title": "Ping Latency (ms)",
-          "type": "timeseries"
-        },
-        {
-          "datasource": "${DS_PROMETHEUS}",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 2,
-            "w": 3,
-            "x": 21,
-            "y": 3
-          },
-          "id": 110,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "text": {},
-            "textMode": "name"
-          },
-          "pluginVersion": "8.0.3",
-          "targets": [
-            {
-              "exemplar": true,
-              "expr": "starlink_router_info{instance=\"$DishID\"}",
-              "instant": true,
-              "interval": "",
-              "legendFormat": "{{ last_boot_reason }}",
-              "queryType": "randomWalk",
-              "refId": "A"
-            }
-          ],
-          "title": "Last Boot Reason",
-          "type": "stat"
-        },
-        {
-          "datasource": "${DS_PROMETHEUS}",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 3,
-            "w": 3,
-            "x": 21,
-            "y": 5
-          },
-          "id": 113,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "text": {},
-            "textMode": "name"
-          },
-          "pluginVersion": "8.0.3",
-          "targets": [
-            {
-              "exemplar": true,
-              "expr": "starlink_router_ethernet_interface{instance=\"$DishID\",name=\"eth1\"}",
-              "hide": false,
-              "instant": true,
-              "interval": "",
-              "legendFormat": "{{ name }}",
-              "refId": "B"
-            },
-            {
-              "exemplar": true,
-              "expr": "starlink_router_ethernet_interface{instance=\"$DishID\",name=\"eth1\"}",
-              "instant": true,
-              "interval": "",
-              "legendFormat": "{{ duplex }}",
-              "queryType": "randomWalk",
-              "refId": "A"
-            }
-          ],
-          "title": "Duplex",
-          "type": "stat"
-        },
-        {
-          "datasource": "${DS_PROMETHEUS}",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 3,
-            "w": 3,
-            "x": 21,
-            "y": 8
-          },
-          "id": 112,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "text": {},
-            "textMode": "name"
-          },
-          "pluginVersion": "8.0.3",
-          "targets": [
-            {
-              "exemplar": true,
-              "expr": "starlink_router_ethernet_interface{instance=\"$DishID\",name=\"eth0\"}",
-              "hide": false,
-              "instant": true,
-              "interval": "",
-              "legendFormat": "{{ name }}",
-              "refId": "B"
-            },
-            {
-              "exemplar": true,
-              "expr": "starlink_router_ethernet_interface{instance=\"$DishID\",name=\"eth0\"}",
-              "instant": true,
-              "interval": "",
-              "legendFormat": "{{ duplex }}",
-              "queryType": "randomWalk",
-              "refId": "A"
-            }
-          ],
-          "title": "Duplex",
-          "type": "stat"
-        }
-      ],
-      "title": "Router Status",
-      "type": "row"
-    },
-    {
-      "collapsed": false,
-      "datasource": null,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 1
-      },
       "id": 53,
       "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Dish Status",
       "type": "row"
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -847,7 +96,7 @@
         "h": 2,
         "w": 2,
         "x": 0,
-        "y": 2
+        "y": 1
       },
       "id": 41,
       "interval": "1m",
@@ -866,14 +115,17 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.0.3",
+      "pluginVersion": "10.0.3",
       "targets": [
         {
-          "exemplar": true,
-          "expr": "starlink_dish_uptime_seconds{instance=\"$DishID\"}",
-          "interval": "",
-          "legendFormat": "",
-          "queryType": "randomWalk",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "builder",
+          "expr": "starlink_dish_uptime_seconds{instance=\"starlink_exporter:9817\"}",
+          "instant": false,
+          "range": true,
           "refId": "A"
         }
       ],
@@ -881,7 +133,10 @@
       "type": "stat"
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -908,7 +163,7 @@
         "h": 2,
         "w": 3,
         "x": 2,
-        "y": 2
+        "y": 1
       },
       "id": 70,
       "options": {
@@ -926,15 +181,17 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.0.3",
+      "pluginVersion": "10.0.3",
       "targets": [
         {
-          "exemplar": true,
-          "expr": "starlink_dish_gps_sats{instance=\"$DishID\"}",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "",
-          "queryType": "randomWalk",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "builder",
+          "expr": "starlink_dish_gps_sats{instance=\"starlink_exporter:9817\"}",
+          "instant": false,
+          "range": true,
           "refId": "A"
         }
       ],
@@ -942,7 +199,10 @@
       "type": "stat"
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -983,7 +243,7 @@
         "h": 2,
         "w": 3,
         "x": 5,
-        "y": 2
+        "y": 1
       },
       "id": 72,
       "options": {
@@ -1001,14 +261,17 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.0.3",
+      "pluginVersion": "10.0.3",
       "targets": [
         {
-          "exemplar": true,
-          "expr": "starlink_dish_currently_obstructed{instance=\"$DishID\"}",
-          "interval": "",
-          "legendFormat": "",
-          "queryType": "randomWalk",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "builder",
+          "expr": "starlink_dish_currently_obstructed{instance=\"starlink_exporter:9817\"}",
+          "instant": false,
+          "range": true,
           "refId": "A"
         }
       ],
@@ -1016,7 +279,10 @@
       "type": "stat"
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1057,7 +323,7 @@
         "h": 2,
         "w": 2,
         "x": 8,
-        "y": 2
+        "y": 1
       },
       "id": 57,
       "options": {
@@ -1075,14 +341,17 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.0.3",
+      "pluginVersion": "10.0.3",
       "targets": [
         {
-          "exemplar": true,
-          "expr": "starlink_dish_alert_roaming{instance=\"$DishID\"}",
-          "interval": "",
-          "legendFormat": "",
-          "queryType": "randomWalk",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "builder",
+          "expr": "starlink_dish_alert_roaming{instance=\"starlink_exporter:9817\"}",
+          "instant": false,
+          "range": true,
           "refId": "A"
         }
       ],
@@ -1090,13 +359,18 @@
       "type": "stat"
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -1142,29 +416,34 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 9,
+        "h": 8,
         "w": 8,
         "x": 10,
-        "y": 2
+        "y": 1
       },
       "id": 55,
       "options": {
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "targets": [
         {
-          "exemplar": true,
-          "expr": "starlink_dish_gps_sats{instance=\"$DishID\"}",
-          "interval": "",
-          "legendFormat": "",
-          "queryType": "randomWalk",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "builder",
+          "expr": "starlink_dish_gps_sats{instance=\"starlink_exporter:9817\"}",
+          "instant": false,
+          "range": true,
           "refId": "A"
         }
       ],
@@ -1172,13 +451,18 @@
       "type": "timeseries"
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": -1,
@@ -1252,29 +536,34 @@
         ]
       },
       "gridPos": {
-        "h": 9,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 2
+        "y": 1
       },
       "id": 78,
       "options": {
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "targets": [
         {
-          "exemplar": true,
-          "expr": "starlink_dish_pop_ping_drop_ratio{instance=\"$DishID\"}*100",
-          "interval": "",
-          "legendFormat": "",
-          "queryType": "randomWalk",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "builder",
+          "expr": "starlink_dish_pop_ping_drop_ratio{instance=\"starlink_exporter:9817\"} * 100",
+          "instant": false,
+          "range": true,
           "refId": "A"
         }
       ],
@@ -1282,7 +571,10 @@
       "type": "timeseries"
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1309,7 +601,7 @@
         "h": 2,
         "w": 3,
         "x": 0,
-        "y": 4
+        "y": 3
       },
       "id": 60,
       "options": {
@@ -1321,21 +613,24 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
+          "fields": "/^CA$/",
           "values": false
         },
         "text": {},
         "textMode": "name"
       },
-      "pluginVersion": "8.0.3",
+      "pluginVersion": "10.0.3",
       "targets": [
         {
-          "exemplar": true,
-          "expr": "starlink_dish_info{instance=\"$DishID\"}",
-          "instant": true,
-          "interval": "",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "starlink_dish_info{instance=\"starlink_exporter:9817\"}",
+          "instant": false,
           "legendFormat": "{{ country_code }}",
-          "queryType": "randomWalk",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -1343,186 +638,10 @@
       "type": "stat"
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
       },
-      "gridPos": {
-        "h": 2,
-        "w": 5,
-        "x": 3,
-        "y": 4
-      },
-      "id": 62,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "name"
-      },
-      "pluginVersion": "8.0.3",
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "starlink_dish_info{instance=\"$DishID\"}",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "{{ device_id }}",
-          "queryType": "randomWalk",
-          "refId": "A"
-        }
-      ],
-      "title": "Device ID",
-      "type": "stat"
-    },
-    {
-      "datasource": "${DS_PROMETHEUS}",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 2,
-        "x": 8,
-        "y": 4
-      },
-      "id": 68,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "value"
-      },
-      "pluginVersion": "8.0.3",
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "starlink_dish_boot_count{instance=\"$DishID\"}",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "",
-          "queryType": "randomWalk",
-          "refId": "A"
-        }
-      ],
-      "title": "Boot Count",
-      "type": "stat"
-    },
-    {
-      "datasource": "${DS_PROMETHEUS}",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 3,
-        "x": 0,
-        "y": 6
-      },
-      "id": 64,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "name"
-      },
-      "pluginVersion": "8.0.3",
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "starlink_dish_info{instance=\"$DishID\"}",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "{{ hardware_version }}",
-          "queryType": "randomWalk",
-          "refId": "A"
-        }
-      ],
-      "title": "Hardware Version",
-      "type": "stat"
-    },
-    {
-      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1549,9 +668,9 @@
         "h": 2,
         "w": 7,
         "x": 3,
-        "y": 6
+        "y": 3
       },
-      "id": 66,
+      "id": 62,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -1567,209 +686,29 @@
         "text": {},
         "textMode": "name"
       },
-      "pluginVersion": "8.0.3",
+      "pluginVersion": "10.0.3",
       "targets": [
         {
-          "exemplar": true,
-          "expr": "starlink_dish_info{instance=\"$DishID\"}",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "{{ software_version }}",
-          "queryType": "randomWalk",
-          "refId": "A"
-        }
-      ],
-      "title": "Software Version",
-      "type": "stat"
-    },
-    {
-      "datasource": "${DS_PROMETHEUS}",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
           },
-          "decimals": 10,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 0,
-        "y": 8
-      },
-      "id": 74,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "auto"
-      },
-      "pluginVersion": "8.0.3",
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "starlink_dish_bore_sight_azimuth_deg{instance=\"$DishID\"}",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "",
-          "queryType": "randomWalk",
+          "editorMode": "code",
+          "expr": "starlink_dish_info{}",
+          "instant": false,
+          "legendFormat": "{{ device_id }}",
+          "range": true,
           "refId": "A"
         }
       ],
-      "title": "boresightAzimuthDeg",
+      "title": "Device ID",
       "type": "stat"
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 10,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
       },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 4,
-        "y": 8
-      },
-      "id": 76,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "auto"
-      },
-      "pluginVersion": "8.0.3",
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "starlink_dish_bore_sight_elevation_deg{instance=\"$DishID\"}",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "",
-          "queryType": "randomWalk",
-          "refId": "A"
-        }
-      ],
-      "title": "boresightElevationDeg",
-      "type": "stat"
-    },
-    {
-      "datasource": "${DS_PROMETHEUS}",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 2,
-        "x": 8,
-        "y": 8
-      },
-      "id": 88,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "name"
-      },
-      "pluginVersion": "8.0.3",
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "starlink_dish_dish_config{instance=\"$DishID\"}",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "{{ power_save_mode  }}",
-          "queryType": "randomWalk",
-          "refId": "A"
-        }
-      ],
-      "title": "Power Save Mode",
-      "type": "stat"
-    },
-    {
-      "datasource": "${DS_PROMETHEUS}",
-      "description": "TILT_LIKE_NORMAL, FORCE_LEVEL",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1796,9 +735,9 @@
         "h": 2,
         "w": 3,
         "x": 0,
-        "y": 11
+        "y": 5
       },
-      "id": 84,
+      "id": 64,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -1814,23 +753,96 @@
         "text": {},
         "textMode": "name"
       },
-      "pluginVersion": "8.0.3",
+      "pluginVersion": "10.0.3",
       "targets": [
         {
-          "exemplar": true,
-          "expr": "starlink_dish_dish_config{instance=\"$DishID\"}",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "{{ level_dish_mode }}",
-          "queryType": "randomWalk",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "builder",
+          "expr": "starlink_dish_info{instance=\"starlink_exporter:9817\"}",
+          "instant": false,
+          "legendFormat": "{{ hardware_version }}",
+          "range": true,
           "refId": "A"
         }
       ],
-      "title": "Level Dish Mode",
+      "title": "Hardware Version",
       "type": "stat"
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 7,
+        "x": 3,
+        "y": 5
+      },
+      "id": 66,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "name"
+      },
+      "pluginVersion": "10.0.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "builder",
+          "expr": "starlink_dish_info{instance=\"starlink_exporter:9817\"}",
+          "instant": false,
+          "legendFormat": "{{ software_version }}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Software Version",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "description": "LOCAL, NONE",
       "fieldConfig": {
         "defaults": {
@@ -1857,8 +869,8 @@
       "gridPos": {
         "h": 2,
         "w": 3,
-        "x": 3,
-        "y": 11
+        "x": 0,
+        "y": 7
       },
       "id": 86,
       "options": {
@@ -1876,15 +888,18 @@
         "text": {},
         "textMode": "name"
       },
-      "pluginVersion": "8.0.3",
+      "pluginVersion": "10.0.3",
       "targets": [
         {
-          "exemplar": true,
-          "expr": "starlink_dish_dish_config{instance=\"$DishID\"}",
-          "instant": true,
-          "interval": "",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "builder",
+          "expr": "starlink_dish_dish_config{instance=\"starlink_exporter:9817\"}",
+          "instant": false,
           "legendFormat": "{{ location_request_mode }}",
-          "queryType": "randomWalk",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -1892,8 +907,10 @@
       "type": "stat"
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
-      "description": "AUTO, ALWAYS_ON, ALWAYS_OFF",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1918,70 +935,9 @@
       },
       "gridPos": {
         "h": 2,
-        "w": 3,
-        "x": 6,
-        "y": 11
-      },
-      "id": 90,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "name"
-      },
-      "pluginVersion": "8.0.3",
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "starlink_dish_dish_config{instance=\"$DishID\"}",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "{{ snow_melt_mode }}",
-          "queryType": "randomWalk",
-          "refId": "A"
-        }
-      ],
-      "title": "Snow Melt Mode",
-      "type": "stat"
-    },
-    {
-      "datasource": "${DS_PROMETHEUS}",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 3,
-        "x": 9,
-        "y": 11
+        "w": 4,
+        "x": 3,
+        "y": 7
       },
       "id": 115,
       "options": {
@@ -1999,15 +955,18 @@
         "text": {},
         "textMode": "name"
       },
-      "pluginVersion": "8.0.3",
+      "pluginVersion": "10.0.3",
       "targets": [
         {
-          "exemplar": true,
-          "expr": "starlink_dish_mobility_class{instance=\"$DishID\"}",
-          "instant": true,
-          "interval": "",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "builder",
+          "expr": "starlink_dish_mobility_class{instance=\"starlink_exporter:9817\"}",
+          "instant": false,
           "legendFormat": "{{ mobility_class }}",
-          "queryType": "randomWalk",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -2015,37 +974,22 @@
       "type": "stat"
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
-          "mappings": [
-            {
-              "options": {
-                "0": {
-                  "index": 0,
-                  "text": "False"
-                },
-                "1": {
-                  "index": 1,
-                  "text": "True"
-                }
-              },
-              "type": "value"
-            }
-          ],
+          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           }
@@ -2054,14 +998,14 @@
       },
       "gridPos": {
         "h": 2,
-        "w": 2,
-        "x": 12,
-        "y": 11
+        "w": 3,
+        "x": 7,
+        "y": 7
       },
-      "id": 58,
+      "id": 68,
       "options": {
         "colorMode": "value",
-        "graphMode": "none",
+        "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
@@ -2072,278 +1016,45 @@
           "values": false
         },
         "text": {},
-        "textMode": "auto"
+        "textMode": "value"
       },
-      "pluginVersion": "8.0.3",
+      "pluginVersion": "10.0.3",
       "targets": [
         {
-          "exemplar": true,
-          "expr": "starlink_dish_alert_is_heating{instance=\"$DishID\"}",
-          "interval": "",
-          "legendFormat": "",
-          "queryType": "randomWalk",
-          "refId": "A"
-        }
-      ],
-      "title": "isHeating",
-      "type": "stat"
-    },
-    {
-      "datasource": "${DS_PROMETHEUS}",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
           },
-          "mappings": [
-            {
-              "options": {
-                "0": {
-                  "text": "False"
-                },
-                "1": {
-                  "text": "True"
-                }
-              },
-              "type": "value"
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 1
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 10,
-        "x": 14,
-        "y": 11
-      },
-      "id": 13,
-      "interval": "15",
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "auto"
-      },
-      "pluginVersion": "8.0.3",
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "starlink_dish_alert_slow_eth_speeds{instance=\"$DishID\"}",
-          "interval": "",
-          "legendFormat": "Slow Ethernet",
+          "editorMode": "builder",
+          "exemplar": false,
+          "expr": "starlink_dish_boot_count{instance=\"starlink_exporter:9817\"}",
+          "instant": true,
+          "range": false,
           "refId": "A"
-        },
-        {
-          "exemplar": true,
-          "expr": "starlink_dish_alert_mast_not_near_vertical{instance=\"$DishID\"}",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Mast Not Near Vertical",
-          "refId": "B"
-        },
-        {
-          "exemplar": true,
-          "expr": "starlink_dish_alert_motors_stuck{instance=\"$DishID\"}",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Motor Stuck",
-          "refId": "C"
-        },
-        {
-          "exemplar": true,
-          "expr": "starlink_dish_alert_thermal_throttle{instance=\"$DishID\"}",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Thernal Throttle",
-          "refId": "D"
-        },
-        {
-          "exemplar": true,
-          "expr": "starlink_dish_alert_thermal_shutdown{instance=\"$DishID\"}",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Thermal Shutdown",
-          "refId": "E"
-        },
-        {
-          "exemplar": true,
-          "expr": "starlink_dish_alert_unexpected_location{instance=\"$DishID\"}",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Unexpected Location",
-          "refId": "F"
         }
       ],
+      "title": "Boot Count",
       "type": "stat"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
-      "fill": 1,
-      "fillGradient": 2,
-      "gridPos": {
-        "h": 14,
-        "w": 24,
-        "x": 0,
-        "y": 13
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
       },
-      "hiddenSeries": false,
-      "id": 8,
-      "interval": "1s",
-      "legend": {
-        "alignAsTable": false,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "8.0.3",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [
-        {
-          "$$hashKey": "object:311",
-          "alias": "Download",
-          "color": "rgb(250, 5, 210)"
-        },
-        {
-          "$$hashKey": "object:312",
-          "alias": "Latency",
-          "color": "rgb(0, 157, 245)",
-          "fill": 0,
-          "fillGradient": 0,
-          "yaxis": 2
-        },
-        {
-          "$$hashKey": "object:313",
-          "alias": "Upload",
-          "color": "rgb(233, 255, 0)"
-        }
-      ],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "starlink_dish_uplink_throughput_bytes{instance=\"$DishID\"} / 1000000 * -1",
-          "instant": false,
-          "interval": "",
-          "legendFormat": "Upload",
-          "refId": "A"
-        },
-        {
-          "exemplar": true,
-          "expr": "starlink_dish_downlink_throughput_bytes{instance=\"$DishID\"} /1000000",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Download",
-          "refId": "B"
-        },
-        {
-          "exemplar": true,
-          "expr": "avg_over_time(starlink_dish_pop_ping_latency_seconds{instance=\"$DishID\"}[1m])",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Latency",
-          "refId": "C"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Tail",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:338",
-          "decimals": null,
-          "format": "short",
-          "label": "Mbps",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:339",
-          "format": "s",
-          "label": "Latency",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": 0
-      }
-    },
-    {
-      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
-            "axisLabel": "",
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Mbps",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
+            "fillOpacity": 20,
+            "gradientMode": "opacity",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
@@ -2355,7 +1066,7 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -2378,54 +1089,127 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "short"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Download"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "rgb(250, 5, 210)",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Latency"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "rgb(0, 157, 245)",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              },
+              {
+                "id": "unit",
+                "value": "s"
+              },
+              {
+                "id": "custom.axisLabel",
+                "value": "Latency"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Upload"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "rgb(233, 255, 0)",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
-        "h": 7,
-        "w": 12,
+        "h": 11,
+        "w": 10,
         "x": 0,
-        "y": 27
+        "y": 9
       },
-      "id": 80,
+      "id": 8,
+      "interval": "1s",
       "options": {
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "multi",
+          "sort": "none"
         }
       },
+      "pluginVersion": "10.0.3",
       "targets": [
         {
-          "exemplar": true,
-          "expr": "starlink_dish_bore_sight_azimuth_deg{instance=\"$DishID\"}",
-          "interval": "",
-          "legendFormat": "",
-          "queryType": "randomWalk",
-          "refId": "A"
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "builder",
+          "expr": "avg_over_time(starlink_dish_pop_ping_latency_seconds{instance=\"starlink_exporter:9817\"}[1m])",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "Latency",
+          "range": true,
+          "refId": "C"
         }
       ],
-      "title": "BoreSight Azimuth Degree",
+      "title": "Latency",
       "type": "timeseries"
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
-            "axisLabel": "",
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Mbps",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
+            "fillOpacity": 20,
+            "gradientMode": "opacity",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
@@ -2437,7 +1221,7 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -2460,43 +1244,123 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "short"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Download"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "rgb(250, 5, 210)",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Latency"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "rgb(0, 157, 245)",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              },
+              {
+                "id": "unit",
+                "value": "s"
+              },
+              {
+                "id": "custom.axisLabel",
+                "value": "Latency"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Upload"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "rgb(233, 255, 0)",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 12,
-        "y": 27
+        "h": 11,
+        "w": 14,
+        "x": 10,
+        "y": 9
       },
-      "id": 82,
+      "id": 116,
+      "interval": "1s",
       "options": {
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "multi",
+          "sort": "none"
         }
       },
+      "pluginVersion": "10.0.3",
       "targets": [
         {
-          "exemplar": true,
-          "expr": "starlink_dish_bore_sight_elevation_deg{instance=\"$DishID\"}",
-          "interval": "",
-          "legendFormat": "",
-          "queryType": "randomWalk",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "builder",
+          "expr": "starlink_dish_uplink_throughput_bytes{instance=\"starlink_exporter:9817\"} / 1000000 * -1",
+          "instant": false,
+          "legendFormat": "Upload",
+          "range": true,
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "builder",
+          "expr": "starlink_dish_downlink_throughput_bytes{instance=\"starlink_exporter:9817\"} / 1000000",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "Download",
+          "range": true,
+          "refId": "B"
         }
       ],
-      "title": "BoreSight Elevation Degree",
+      "title": "Tail",
       "type": "timeseries"
     }
   ],
   "refresh": "5s",
-  "schemaVersion": 30,
+  "schemaVersion": 38,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -2504,10 +1368,10 @@
       {
         "allValue": "*",
         "current": {},
-        "datasource": "${DS_PROMETHEUS}",
+        "datasource": {
+          "uid": "${DS_PROMETHEUS}"
+        },
         "definition": "label_values(starlink_dish_up, instance)",
-        "description": null,
-        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Dish ID",
@@ -2545,7 +1409,8 @@
     ]
   },
   "timezone": "",
-  "title": "Starlink-Updated",
+  "title": "Starlink",
   "uid": "GG3mnflGx",
-  "version": 49
+  "version": 6,
+  "weekStart": ""
 }
