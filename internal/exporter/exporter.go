@@ -15,72 +15,11 @@ import (
 
 const (
 	// DishAddress to reach Starlink dish ip:port
-	DishAddress   = "192.168.100.1:9200"
-	RouterAddress = "192.168.1.1:9000"
-	namespace     = "starlink"
+	DishAddress = "192.168.100.1:9200"
+	namespace   = "starlink"
 )
 
 var (
-	// RouterInfo
-	routerInfo = prometheus.NewDesc(
-		prometheus.BuildFQName(namespace, "router", "info"),
-		"Running router software versions and IDs",
-		[]string{
-			"id",
-			"hardware_version",
-			"software_version",
-			"manufactured_version",
-			"country_code",
-			"utc_offset_s",
-			"software_partitions_equal",
-			"is_dev",
-			"boot_count",
-			"anti_rollback_version",
-			"is_hitl",
-			"last_boot_reason",
-		}, nil,
-	)
-
-	// Router IPv4 Wan Address
-	routerIPv4WanAddress = prometheus.NewDesc(
-		prometheus.BuildFQName(namespace, "router", "ipv4_wan_address"),
-		"IPv4 WAN Address", []string{"ipv4_wan_address"}, nil)
-
-	// Several ping latency metrics on the router
-	routerToDishPingLatencyMs = prometheus.NewDesc(
-		prometheus.BuildFQName(namespace, "router", "router_to_dish_ping_latency_ms"),
-		"Router to Dish Ping latency ms", nil, nil,
-	)
-
-	routerPopPingLatencyMs = prometheus.NewDesc(
-		prometheus.BuildFQName(namespace, "router", "router_pop_ping_latency_ms"),
-		"Router Pop Ping latency ms", nil, nil,
-	)
-
-	routerPingLatencyMs = prometheus.NewDesc(
-		prometheus.BuildFQName(namespace, "router", "router_ping_latency_ms"),
-		"Router Ping latency ms", nil, nil,
-	)
-
-	ethernetInterface = prometheus.NewDesc(
-		prometheus.BuildFQName(namespace, "router", "ethernet_interface"),
-		"Ethernet interface stats on the router",
-		[]string{
-			"name",
-			"rx_bytes",
-			"rx_packets",
-			"tx_bytes",
-			"tx_packets",
-			"duplex",
-		}, nil,
-	)
-
-	// Router Uptime Seconds
-	routerUptimeS = prometheus.NewDesc(
-		prometheus.BuildFQName(namespace, "router", "uptime_s"),
-		"Router uptime seconds", nil, nil,
-	)
-
 	// DeviceInfo
 	dishInfo = prometheus.NewDesc(
 		prometheus.BuildFQName(namespace, "dish", "info"),
@@ -348,18 +287,15 @@ var (
 // Exporter collects Starlink stats from the Dish and exports them using
 // the prometheus metrics package.
 type Exporter struct {
-	Conn         *grpc.ClientConn
-	RouterConn   *grpc.ClientConn
-	Client       device.DeviceClient
-	RouterClient device.DeviceClient
+	Conn   *grpc.ClientConn
+	Client device.DeviceClient
 
 	DishID      string
-	RouterID    string
 	CountryCode string
 }
 
 // New returns an initialized Exporter.
-func New(address string, isRouter bool) (*Exporter, error) {
+func New(address string) (*Exporter, error) {
 	ctx, connCancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer connCancel()
 	conn, err := grpc.DialContext(ctx, address, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
@@ -378,56 +314,17 @@ func New(address string, isRouter bool) (*Exporter, error) {
 		return nil, fmt.Errorf("could not collect inital information from dish: %s", err.Error())
 	}
 
-	if isRouter {
-		routerCtx, routerConnCancel := context.WithTimeout(context.Background(), time.Second*3)
-		defer routerConnCancel()
-		routerConn, err := grpc.DialContext(routerCtx, RouterAddress, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
-		if err != nil {
-			return nil, fmt.Errorf("error creating underlying gRPC connection to starlink router: %s", err.Error())
-		}
-		routerCtx, routerHandleCancel := context.WithTimeout(context.Background(), time.Second*1)
-		defer routerHandleCancel()
-		routerResp, err := device.NewDeviceClient(routerConn).Handle(routerCtx, &device.Request{
-			Request: &device.Request_GetDeviceInfo{},
-		})
-		if err != nil {
-			return nil, fmt.Errorf("could not collect inital information from router: %s", err.Error())
-		}
-		return &Exporter{
-			Conn:         conn,
-			RouterConn:   routerConn,
-			Client:       device.NewDeviceClient(conn),
-			RouterClient: device.NewDeviceClient(routerConn),
-			DishID:       resp.GetGetDeviceInfo().GetDeviceInfo().GetId(),
-			RouterID:     routerResp.GetGetDeviceInfo().GetDeviceInfo().GetId(),
-			CountryCode:  resp.GetGetDeviceInfo().GetDeviceInfo().GetCountryCode(),
-		}, nil
-	} else {
-		return &Exporter{
-			Conn:         conn,
-			RouterConn:   nil,
-			Client:       device.NewDeviceClient(conn),
-			RouterClient: nil,
-			DishID:       resp.GetGetDeviceInfo().GetDeviceInfo().GetId(),
-			RouterID:     "",
-			CountryCode:  resp.GetGetDeviceInfo().GetDeviceInfo().GetCountryCode(),
-		}, nil
-	}
+	return &Exporter{
+		Conn:        conn,
+		Client:      device.NewDeviceClient(conn),
+		DishID:      resp.GetGetDeviceInfo().GetDeviceInfo().GetId(),
+		CountryCode: resp.GetGetDeviceInfo().GetDeviceInfo().GetCountryCode(),
+	}, nil
 }
 
 // Describe describes all the metrics ever exported by the Starlink exporter. It
 // implements prometheus.Collector.
 func (e *Exporter) Describe(ch chan<- *prometheus.Desc) {
-
-	// Router
-	ch <- routerInfo
-	ch <- routerIPv4WanAddress
-	ch <- routerToDishPingLatencyMs
-	ch <- routerPopPingLatencyMs
-	ch <- routerPingLatencyMs
-	ch <- routerUptimeS
-
-	ch <- ethernetInterface
 
 	// WiFi
 	ch <- dishConfig
@@ -502,11 +399,6 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 	ok = ok && e.collectDishAlerts(ch)
 	ok = ok && e.collectDishConfig(ch)
 
-	if e.RouterClient != nil {
-		ok = ok && e.collectRouterStatus(ch)
-		ok = ok && e.collectNetworkInterface(ch)
-	}
-
 	if ok {
 		ch <- prometheus.MustNewConstMetric(
 			dishUp, prometheus.GaugeValue, 1.0,
@@ -519,38 +411,6 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 			dishUp, prometheus.GaugeValue, 0.0,
 		)
 	}
-}
-
-// TODO
-func (e *Exporter) collectNetworkInterface(ch chan<- prometheus.Metric) bool {
-	req := &device.Request{
-		Request: &device.Request_GetNetworkInterfaces{},
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*1)
-	defer cancel()
-
-	resp, err := e.RouterClient.Handle(ctx, req)
-	if err != nil {
-		log.Errorf("failed to get dish config from dish: %s", err.Error())
-		return false
-	}
-
-	netIfaces := resp.GetGetNetworkInterfaces().GetNetworkInterfaces()
-	for _, iface := range netIfaces {
-		if iface.GetEthernet() != nil {
-			ch <- prometheus.MustNewConstMetric(
-				ethernetInterface, prometheus.GaugeValue, 1.00,
-				iface.GetName(),
-				fmt.Sprint(iface.GetRxStats().GetBytes()),
-				fmt.Sprint(iface.GetRxStats().GetPackets()),
-				fmt.Sprint(iface.GetTxStats().GetBytes()),
-				fmt.Sprint(iface.GetTxStats().GetPackets()),
-				iface.GetEthernet().GetDuplex().String(),
-			)
-		}
-	}
-	return true
 }
 
 func (e *Exporter) collectDishConfig(ch chan<- prometheus.Metric) bool {
@@ -574,58 +434,6 @@ func (e *Exporter) collectDishConfig(ch chan<- prometheus.Metric) bool {
 		dishC.GetDishConfig().GetLevelDishMode().String(),
 		fmt.Sprint(dishC.GetDishConfig().GetPowerSaveMode()),
 	)
-	return true
-}
-
-func (e *Exporter) collectRouterStatus(ch chan<- prometheus.Metric) bool {
-	req := &device.Request{
-		Request: &device.Request_GetStatus{},
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-
-	resp, err := e.RouterClient.Handle(ctx, req)
-	if err != nil {
-		log.Errorf("failed to collect status from router: %s", err.Error())
-		return false
-	}
-
-	routerStatus := resp.GetWifiGetStatus()
-	routerI := routerStatus.GetDeviceInfo()
-
-	ch <- prometheus.MustNewConstMetric(
-		routerInfo, prometheus.GaugeValue, 1.00,
-		routerI.GetId(),
-		routerI.GetHardwareVersion(),
-		routerI.GetSoftwareVersion(),
-		routerI.GetManufacturedVersion(),
-		routerI.GetCountryCode(),
-		fmt.Sprint(routerI.GetUtcOffsetS()),
-		fmt.Sprint(routerI.GetSoftwarePartitionsEqual()),
-		fmt.Sprint(routerI.GetIsDev()),
-		fmt.Sprint(routerI.GetBootcount()),
-		fmt.Sprint(routerI.GetAntiRollbackVersion()),
-		fmt.Sprint(routerI.GetIsHitl()),
-		routerI.GetBoot().GetLastReason().String(),
-	)
-
-	ch <- prometheus.MustNewConstMetric(
-		routerIPv4WanAddress, prometheus.GaugeValue, 1.00,
-		routerStatus.GetIpv4WanAddress())
-
-	ch <- prometheus.MustNewConstMetric(
-		routerUptimeS, prometheus.CounterValue, float64(routerStatus.GetDeviceState().GetUptimeS()))
-
-	ch <- prometheus.MustNewConstMetric(
-		routerToDishPingLatencyMs, prometheus.GaugeValue, float64(routerStatus.GetDishPingLatencyMs()))
-
-	ch <- prometheus.MustNewConstMetric(
-		routerPopPingLatencyMs, prometheus.GaugeValue, float64(routerStatus.GetPopPingLatencyMs()))
-
-	ch <- prometheus.MustNewConstMetric(
-		routerPingLatencyMs, prometheus.GaugeValue, float64(routerStatus.GetPingLatencyMs()))
-
 	return true
 }
 
@@ -791,22 +599,6 @@ func (e *Exporter) collectDishObstructions(ch chan<- prometheus.Metric) bool {
 	ch <- prometheus.MustNewConstMetric(
 		dishProlongedObstructionValid, prometheus.GaugeValue, flool(obstructions.GetAvgProlongedObstructionValid()),
 	)
-
-	//for i, v := range obstructions.GetWedgeFractionObstructed() {
-	//	ch <- prometheus.MustNewConstMetric(
-	//		dishWedgeFractionObstructionRatio, prometheus.GaugeValue, float64(v),
-	//		strconv.Itoa(i),
-	//		fmt.Sprintf("%d_to_%d", i*30, (i+1)*30),
-	//	)
-	//}
-	//
-	//for i, v := range obstructions.GetWedgeAbsFractionObstructed() {
-	//	ch <- prometheus.MustNewConstMetric(
-	//		dishWedgeAbsFractionObstructionRatio, prometheus.GaugeValue, float64(v),
-	//		strconv.Itoa(i),
-	//		fmt.Sprintf("%d_to_%d", i*30, (i+1)*30),
-	//	)
-	//}
 
 	return true
 }

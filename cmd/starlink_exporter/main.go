@@ -18,16 +18,14 @@ const (
 func main() {
 	port := flag.String("port", "9817", "listening port to expose metrics on")
 	address := flag.String("address", exporter.DishAddress, "IP address and port to reach dish")
-	isRouter := flag.Bool("router", false, "enable router gRPC monitoring")
 	flag.Parse()
 
-	exporterClient, err := exporter.New(*address, *isRouter)
+	exporterClient, err := exporter.New(*address)
 	if err != nil {
 		log.Fatalf("could not start exporterClient: %s", err.Error())
 	}
 	defer exporterClient.Conn.Close()
 	log.Infof("dish id: %s", exporterClient.DishID)
-	log.Infof("router id: %s", exporterClient.RouterID)
 
 	r := prometheus.NewRegistry()
 	r.MustRegister(exporterClient)

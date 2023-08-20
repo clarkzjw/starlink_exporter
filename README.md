@@ -1,15 +1,6 @@
 <p align="center">
-  <img alt="logo" src="https://github.com/clarkzjw/starlink_exporter/raw/main/.docs/assets/logo.jpg" height="150" />
-  <h3 align="center">Starlink Prometheus Exporter</h3>
+  <h3 align="center">Starlink Prometheus Exporter Monitoring Stack</h3>
 </p>
-
----
-
-**Goal**: I will try to keep this fork updated as long as I still have access to the dish from our research lab. 
-
-Original repository: https://github.com/danopstech/starlink_exporter
-
-**Status**: As of 2023/02/06, this repo is updated per `191e4dfa-d63a-46b1-a73b-9fa907733864.uterm.release` on a Starlink RV dish.
 
 ---
 
@@ -20,10 +11,20 @@ A [Starlink](https://www.starlink.com/) exporter for Prometheus. Not affiliated 
 [![License](https://img.shields.io/github/license/clarkzjw/starlink_exporter)](/LICENSE)
 [![Release](https://img.shields.io/github/release/clarkzjw/starlink_exporter.svg)](https://github.com/clarkzjw/starlink_exporter/releases/latest)
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/clarkzjw/starlink_exporter)
-![os/arch](https://img.shields.io/badge/os%2Farch-amd64-yellow)
-![os/arch](https://img.shields.io/badge/os%2Farch-arm64-yellow)
-![os/arch](https://img.shields.io/badge/os%2Farch-armv7-yellow)
 [![Go Report Card](https://goreportcard.com/badge/github.com/clarkzjw/starlink_exporter)](https://goreportcard.com/report/github.com/clarkzjw/starlink_exporter)
+
+Original repository: 
+
++ https://github.com/danopstech/starlink
++ https://github.com/danopstech/starlink_exporter
+
+---
+
+gRPC last generated with firmware version: `87ed6ceb-4409-410a-b5f1-25886edf5966.uterm.release`
+
+Firmware tracking website: https://starlinktrack.com/firmware/dishy
+
+---
 
 ## Usage:
 
@@ -38,7 +39,6 @@ Usage of starlink_exporter
         IP address and port to reach dish (default "192.168.100.1:9200")
   -port string
         listening port to expose metrics on (default "9817")
-
 ```
 
 ### Binaries
