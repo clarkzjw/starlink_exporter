@@ -60,7 +60,7 @@
             "spanNulls": false,
             "stacking": {
               "group": "A",
-              "mode": "normal"
+              "mode": "none"
             },
             "thresholdsStyle": {
               "mode": "off"
@@ -95,7 +95,7 @@
           "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": false
+          "showLegend": true
         },
         "tooltip": {
           "mode": "single",
@@ -108,7 +108,7 @@
             "type": "influxdb",
             "uid": "PF3A0F3054C0DA367"
           },
-          "query": "timestart = uint(v: v.timeRangeStart)\r\ntimestop = uint(v: v.timeRangeStop)\r\nduration = duration(v:timestop - timestart)\r\n\r\ndata = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"last_offset\")\r\n    |> map(fn: (r) => ({r with _value: r._value * 1000.0}))\r\n\r\nyield data\r\n",
+          "query": "timestart = uint(v: v.timeRangeStart)\r\ntimestop = uint(v: v.timeRangeStop)\r\nduration = duration(v:timestop - timestart)\r\n\r\ndata = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"last_offset\")\r\n    |> map(fn: (r) => ({r with _value: r._value * 1000.0}))\r\n    |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n\r\nyield data\r\n",
           "queryType": "randomWalk",
           "refId": "A"
         },
@@ -118,7 +118,7 @@
             "uid": "PF3A0F3054C0DA367"
           },
           "hide": false,
-          "query": "rms_offset = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"rms_offset\")\r\n    |> map(fn: (r) => ({r with _value: r._value * 1000.0}))\r\n\r\nyield rms_offset\r\n",
+          "query": "rms_offset = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"rms_offset\")\r\n    |> map(fn: (r) => ({r with _value: r._value * 1000.0}))\r\n    |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n\r\nyield rms_offset\r\n",
           "refId": "B"
         },
         {
@@ -127,7 +127,7 @@
             "uid": "PF3A0F3054C0DA367"
           },
           "hide": false,
-          "query": "system_time = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"system_time\")\r\n    |> map(fn: (r) => ({r with _value: r._value * 1000.0}))\r\n\r\nyield system_time\r\n",
+          "query": "system_time = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"system_time\")\r\n    |> map(fn: (r) => ({r with _value: r._value * 1000.0}))\r\n    |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n\r\nyield system_time\r\n",
           "refId": "C"
         }
       ],
@@ -224,7 +224,7 @@
             "type": "influxdb",
             "uid": "PF3A0F3054C0DA367"
           },
-          "query": "timestart = uint(v: v.timeRangeStart)\r\ntimestop = uint(v: v.timeRangeStop)\r\nduration = duration(v:timestop - timestart)\r\n\r\ndata = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"root_dispersion\")\r\n\r\nyield data\r\n",
+          "query": "timestart = uint(v: v.timeRangeStart)\r\ntimestop = uint(v: v.timeRangeStop)\r\nduration = duration(v:timestop - timestart)\r\n\r\ndata = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"root_dispersion\")\r\n    |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n\r\nyield data\r\n",
           "queryType": "randomWalk",
           "refId": "A"
         },
@@ -234,7 +234,7 @@
             "uid": "PF3A0F3054C0DA367"
           },
           "hide": false,
-          "query": "timestart = uint(v: v.timeRangeStart)\r\ntimestop = uint(v: v.timeRangeStop)\r\nduration = duration(v:timestop - timestart)\r\n\r\nroot_delay = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"root_delay\")\r\n\r\nyield root_delay\r\n",
+          "query": "timestart = uint(v: v.timeRangeStart)\r\ntimestop = uint(v: v.timeRangeStop)\r\nduration = duration(v:timestop - timestart)\r\n\r\nroot_delay = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"root_delay\")\r\n    |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n\r\nyield root_delay\r\n",
           "refId": "B"
         }
       ],
@@ -331,7 +331,7 @@
             "type": "influxdb",
             "uid": "PF3A0F3054C0DA367"
           },
-          "query": "timestart = uint(v: v.timeRangeStart)\r\ntimestop = uint(v: v.timeRangeStop)\r\nduration = duration(v:timestop - timestart)\r\n\r\ndata = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"skew\")\r\n\r\nyield data\r\n",
+          "query": "timestart = uint(v: v.timeRangeStart)\r\ntimestop = uint(v: v.timeRangeStop)\r\nduration = duration(v:timestop - timestart)\r\n\r\ndata = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"skew\")\r\n    |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n    \r\nyield data\r\n",
           "queryType": "randomWalk",
           "refId": "A"
         }
@@ -429,7 +429,7 @@
             "type": "influxdb",
             "uid": "PF3A0F3054C0DA367"
           },
-          "query": "timestart = uint(v: v.timeRangeStart)\r\ntimestop = uint(v: v.timeRangeStop)\r\nduration = duration(v:timestop - timestart)\r\n\r\ndata = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"frequency\")\r\n\r\nyield data\r\n",
+          "query": "timestart = uint(v: v.timeRangeStart)\r\ntimestop = uint(v: v.timeRangeStop)\r\nduration = duration(v:timestop - timestart)\r\n\r\ndata = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"frequency\")\r\n    |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n\r\nyield data\r\n",
           "queryType": "randomWalk",
           "refId": "A"
         }
@@ -526,7 +526,7 @@
             "type": "influxdb",
             "uid": "PF3A0F3054C0DA367"
           },
-          "query": "timestart = uint(v: v.timeRangeStart)\r\ntimestop = uint(v: v.timeRangeStop)\r\nduration = duration(v:timestop - timestart)\r\n\r\ndata = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"update_interval\")\r\n\r\nyield data\r\n",
+          "query": "timestart = uint(v: v.timeRangeStart)\r\ntimestop = uint(v: v.timeRangeStop)\r\nduration = duration(v:timestop - timestart)\r\n\r\ndata = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"update_interval\")\r\n    |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n\r\nyield data\r\n",
           "queryType": "randomWalk",
           "refId": "A"
         }
