@@ -3,7 +3,10 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -13,13 +16,17 @@
     ]
   },
   "editable": true,
-  "gnetId": null,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 20,
+  "id": 2,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
-      "datasource": "Influxdb",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "PF3A0F3054C0DA367"
+      },
       "description": "Last Offset: This is the estimated local offset on the last clock update. \n\nRMS Offset: This is a long-term average of the offset value. \n\nSystem Time: Offset with NTP",
       "fieldConfig": {
         "defaults": {
@@ -27,6 +34,8 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -51,7 +60,7 @@
             "spanNulls": false,
             "stacking": {
               "group": "A",
-              "mode": "none"
+              "mode": "normal"
             },
             "thresholdsStyle": {
               "mode": "off"
@@ -85,35 +94,58 @@
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": false
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "PF3A0F3054C0DA367"
+          },
           "query": "timestart = uint(v: v.timeRangeStart)\r\ntimestop = uint(v: v.timeRangeStop)\r\nduration = duration(v:timestop - timestart)\r\n\r\ndata = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"last_offset\")\r\n    |> map(fn: (r) => ({r with _value: r._value * 1000.0}))\r\n\r\nyield data\r\n",
           "queryType": "randomWalk",
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "PF3A0F3054C0DA367"
+          },
           "hide": false,
           "query": "rms_offset = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"rms_offset\")\r\n    |> map(fn: (r) => ({r with _value: r._value * 1000.0}))\r\n\r\nyield rms_offset\r\n",
           "refId": "B"
         },
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "PF3A0F3054C0DA367"
+          },
           "hide": false,
           "query": "system_time = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"system_time\")\r\n    |> map(fn: (r) => ({r with _value: r._value * 1000.0}))\r\n\r\nyield system_time\r\n",
           "refId": "C"
         }
       ],
       "title": "Time Offset (ms)",
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        }
+      ],
       "transparent": true,
       "type": "timeseries"
     },
     {
-      "datasource": "Influxdb",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "PF3A0F3054C0DA367"
+      },
       "description": "Root delay\nThis is the total of the network path delays to the stratum-1 computer from which the computer is ultimately synchronized.\n\nRoot Dispersion\nThis is the total dispersion accumulated through all the computers back to the stratum-1 computer from which the computer is ultimately synchronized. Dispersion is due to system clock resolution, statistical measurement variations etc. ",
       "fieldConfig": {
         "defaults": {
@@ -121,6 +153,8 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -176,30 +210,49 @@
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "PF3A0F3054C0DA367"
+          },
           "query": "timestart = uint(v: v.timeRangeStart)\r\ntimestop = uint(v: v.timeRangeStop)\r\nduration = duration(v:timestop - timestart)\r\n\r\ndata = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"root_dispersion\")\r\n\r\nyield data\r\n",
           "queryType": "randomWalk",
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "PF3A0F3054C0DA367"
+          },
           "hide": false,
           "query": "timestart = uint(v: v.timeRangeStart)\r\ntimestop = uint(v: v.timeRangeStop)\r\nduration = duration(v:timestop - timestart)\r\n\r\nroot_delay = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"root_delay\")\r\n\r\nyield root_delay\r\n",
           "refId": "B"
         }
       ],
       "title": "Root Difference (Seconds)",
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        }
+      ],
       "transparent": true,
       "type": "timeseries"
     },
     {
-      "datasource": "Influxdb",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "PF3A0F3054C0DA367"
+      },
       "description": "This is the estimated error bound on the frequency. ",
       "fieldConfig": {
         "defaults": {
@@ -207,6 +260,8 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -262,25 +317,40 @@
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "PF3A0F3054C0DA367"
+          },
           "query": "timestart = uint(v: v.timeRangeStart)\r\ntimestop = uint(v: v.timeRangeStop)\r\nduration = duration(v:timestop - timestart)\r\n\r\ndata = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"skew\")\r\n\r\nyield data\r\n",
           "queryType": "randomWalk",
           "refId": "A"
         }
       ],
       "title": "Skew (ppm)",
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        }
+      ],
       "transparent": true,
       "type": "timeseries"
     },
     {
-      "datasource": "Influxdb",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "PF3A0F3054C0DA367"
+      },
       "description": "Negative: slow",
       "fieldConfig": {
         "defaults": {
@@ -288,6 +358,8 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -343,31 +415,48 @@
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "PF3A0F3054C0DA367"
+          },
           "query": "timestart = uint(v: v.timeRangeStart)\r\ntimestop = uint(v: v.timeRangeStop)\r\nduration = duration(v:timestop - timestart)\r\n\r\ndata = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"frequency\")\r\n\r\nyield data\r\n",
           "queryType": "randomWalk",
           "refId": "A"
         }
       ],
       "title": "Frequency (ppm)",
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        }
+      ],
       "transparent": true,
       "type": "timeseries"
     },
     {
-      "datasource": "Influxdb",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "PF3A0F3054C0DA367"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -423,38 +512,51 @@
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "PF3A0F3054C0DA367"
+          },
           "query": "timestart = uint(v: v.timeRangeStart)\r\ntimestop = uint(v: v.timeRangeStop)\r\nduration = duration(v:timestop - timestart)\r\n\r\ndata = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"update_interval\")\r\n\r\nyield data\r\n",
           "queryType": "randomWalk",
           "refId": "A"
         }
       ],
       "title": "Update Interval (Seconds)",
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        }
+      ],
       "transparent": true,
       "type": "timeseries"
     }
   ],
-  "refresh": false,
-  "schemaVersion": 30,
+  "refresh": "",
+  "schemaVersion": 38,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-2d",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "NTP",
   "uid": "I_GY1ORSz",
-  "version": 8
+  "version": 1,
+  "weekStart": ""
 }
