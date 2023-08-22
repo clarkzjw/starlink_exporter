@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 2,
+  "id": 1,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -40,7 +40,7 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 10,
+            "fillOpacity": 0,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -52,12 +52,12 @@
               "fill": "solid"
             },
             "lineWidth": 1,
-            "pointSize": 5,
+            "pointSize": 2,
             "scaleDistribution": {
               "type": "linear"
             },
             "showPoints": "auto",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -108,7 +108,8 @@
             "type": "influxdb",
             "uid": "PF3A0F3054C0DA367"
           },
-          "query": "timestart = uint(v: v.timeRangeStart)\r\ntimestop = uint(v: v.timeRangeStop)\r\nduration = duration(v:timestop - timestart)\r\n\r\ndata = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"last_offset\")\r\n    |> map(fn: (r) => ({r with _value: r._value * 1000.0}))\r\n    |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n\r\nyield data\r\n",
+          "hide": false,
+          "query": "timestart = uint(v: v.timeRangeStart)\r\ntimestop = uint(v: v.timeRangeStop)\r\nduration = duration(v:timestop - timestart)\r\n\r\ndata = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"last_offset\")\r\n    |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)\r\n    |> map(fn: (r) => ({r with _value: r._value * 1000.0}))\r\n\r\n\r\nyield data\r\n",
           "queryType": "randomWalk",
           "refId": "A"
         },
@@ -118,7 +119,7 @@
             "uid": "PF3A0F3054C0DA367"
           },
           "hide": false,
-          "query": "rms_offset = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"rms_offset\")\r\n    |> map(fn: (r) => ({r with _value: r._value * 1000.0}))\r\n    |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n\r\nyield rms_offset\r\n",
+          "query": "rms_offset = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"rms_offset\")\r\n    |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)\r\n    |> map(fn: (r) => ({r with _value: r._value * 1000.0}))\r\n\r\n    \r\n\r\nyield rms_offset\r\n",
           "refId": "B"
         },
         {
@@ -127,7 +128,7 @@
             "uid": "PF3A0F3054C0DA367"
           },
           "hide": false,
-          "query": "system_time = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"system_time\")\r\n    |> map(fn: (r) => ({r with _value: r._value * 1000.0}))\r\n    |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n\r\nyield system_time\r\n",
+          "query": "system_time = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"system_time\")\r\n    |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)\r\n    |> map(fn: (r) => ({r with _value: r._value * 1000.0}))\r\n    \r\n\r\nyield system_time\r\n",
           "refId": "C"
         }
       ],
@@ -159,7 +160,7 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 10,
+            "fillOpacity": 0,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -167,13 +168,16 @@
               "viz": false
             },
             "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
             "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
             },
             "showPoints": "auto",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -224,7 +228,7 @@
             "type": "influxdb",
             "uid": "PF3A0F3054C0DA367"
           },
-          "query": "timestart = uint(v: v.timeRangeStart)\r\ntimestop = uint(v: v.timeRangeStop)\r\nduration = duration(v:timestop - timestart)\r\n\r\ndata = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"root_dispersion\")\r\n    |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n\r\nyield data\r\n",
+          "query": "timestart = uint(v: v.timeRangeStart)\r\ntimestop = uint(v: v.timeRangeStop)\r\nduration = duration(v:timestop - timestart)\r\n\r\ndata = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"root_dispersion\")\r\n    |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)\r\n\r\nyield data\r\n",
           "queryType": "randomWalk",
           "refId": "A"
         },
@@ -234,7 +238,7 @@
             "uid": "PF3A0F3054C0DA367"
           },
           "hide": false,
-          "query": "timestart = uint(v: v.timeRangeStart)\r\ntimestop = uint(v: v.timeRangeStop)\r\nduration = duration(v:timestop - timestart)\r\n\r\nroot_delay = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"root_delay\")\r\n    |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n\r\nyield root_delay\r\n",
+          "query": "timestart = uint(v: v.timeRangeStart)\r\ntimestop = uint(v: v.timeRangeStop)\r\nduration = duration(v:timestop - timestart)\r\n\r\nroot_delay = from(bucket: \"telegraf\")\r\n    |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n    |> filter(fn: (r) => r._measurement == \"chrony\" and r._field == \"root_delay\")\r\n    |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)\r\n\r\nyield root_delay\r\n",
           "refId": "B"
         }
       ],
@@ -266,7 +270,7 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 10,
+            "fillOpacity": 0,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -275,7 +279,7 @@
             },
             "lineInterpolation": "linear",
             "lineWidth": 1,
-            "pointSize": 5,
+            "pointSize": 3,
             "scaleDistribution": {
               "type": "linear"
             },
@@ -364,7 +368,7 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 10,
+            "fillOpacity": 0,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -461,7 +465,7 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 10,
+            "fillOpacity": 0,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -542,7 +546,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "",
+  "refresh": false,
   "schemaVersion": 38,
   "style": "dark",
   "tags": [],
@@ -550,7 +554,7 @@
     "list": []
   },
   "time": {
-    "from": "now-2d",
+    "from": "now-24h",
     "to": "now"
   },
   "timepicker": {},
