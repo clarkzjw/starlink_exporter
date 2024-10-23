@@ -39,7 +39,7 @@ jobs:
 
       - name: Create Release
         id: createRelease
-        uses: goreleaser/goreleaser-action@v4
+        uses: goreleaser/goreleaser-action@v6
         with:
           version: latest
           args: release --rm-dist
