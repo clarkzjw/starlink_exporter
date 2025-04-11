@@ -4,6 +4,8 @@ services:
     restart: always
     ports:
       - "9817:9817"
+    environment:
+      - STARLINK_GRPC_ADDR_PORT=192.168.100.1:9200
 
   prometheus:
     image: "prom/prometheus:v2.37.9"
