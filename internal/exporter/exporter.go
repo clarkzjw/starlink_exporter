@@ -10,7 +10,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	"github.com/clarkzjw/starlink_exporter/pkg/spacex.com/api/device"
+	device "github.com/clarkzjw/starlink-grpc-golang/pkg/spacex.com/api/device"
 )
 
 const (
