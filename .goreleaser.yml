@@ -1,3 +1,4 @@
+version: 2
 project_name: starlink_exporter
 
 before:
@@ -8,6 +9,8 @@ builds:
   - main: ./cmd/starlink_exporter/main.go
     env:
       - CGO_ENABLED=0
+    flags:
+    - -mod=vendor
     goos:
       - linux
       - windows
@@ -29,7 +32,7 @@ archives:
       {{- if .Arm }}v{{ .Arm }}{{ end -}}
     format_overrides:
       - goos: windows
-        format: zip
+        formats: [ 'zip' ]
     files:
       - none*
 
