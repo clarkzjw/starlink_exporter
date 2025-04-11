@@ -66,7 +66,7 @@
       },
       "gridPos": {
         "h": 10,
-        "w": 12,
+        "w": 9,
         "x": 0,
         "y": 1
       },
@@ -244,8 +244,8 @@
       },
       "gridPos": {
         "h": 10,
-        "w": 12,
-        "x": 12,
+        "w": 9,
+        "x": 9,
         "y": 1
       },
       "id": 168,
@@ -388,6 +388,90 @@
         }
       ],
       "type": "geomap"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 6,
+        "x": 18,
+        "y": 1
+      },
+      "id": 183,
+      "options": {
+        "autoPlay": true,
+        "autoPlayInfinity": false,
+        "buttons": [],
+        "controls": true,
+        "description": "Map",
+        "height": 0,
+        "heightMode": "auto",
+        "infinityPlay": false,
+        "mediaSources": [
+          {
+            "field": "data",
+            "id": "ab63767b-6bb1-463f-9f09-9144aa57b82d",
+            "refId": "A",
+            "type": "image"
+          }
+        ],
+        "noResultsMessage": "Nothing to display...",
+        "pdfToolbar": true,
+        "scale": "auto",
+        "toolbar": true,
+        "width": 0,
+        "widthMode": "original",
+        "zoomType": "default"
+      },
+      "pluginVersion": "6.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "starlink_dish_obstruction_map{instance=\"$DishID\"}",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "Obstruction Map",
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "keepLabels": [
+              "data"
+            ],
+            "mode": "columns",
+            "valueLabel": "__name__"
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "string",
+                "targetField": "data"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "volkovlabs-image-panel"
     },
     {
       "collapsed": false,
@@ -5210,7 +5294,7 @@
       },
       "gridPos": {
         "h": 2,
-        "w": 4,
+        "w": 3,
         "x": 4,
         "y": 61
       },
@@ -5276,8 +5360,8 @@
       },
       "gridPos": {
         "h": 2,
-        "w": 4,
-        "x": 8,
+        "w": 3,
+        "x": 7,
         "y": 61
       },
       "id": 146,
@@ -5342,8 +5426,8 @@
       },
       "gridPos": {
         "h": 2,
-        "w": 4,
-        "x": 12,
+        "w": 3,
+        "x": 10,
         "y": 61
       },
       "id": 148,
@@ -5408,8 +5492,8 @@
       },
       "gridPos": {
         "h": 2,
-        "w": 4,
-        "x": 16,
+        "w": 3,
+        "x": 13,
         "y": 61
       },
       "id": 145,
@@ -5474,8 +5558,8 @@
       },
       "gridPos": {
         "h": 2,
-        "w": 4,
-        "x": 20,
+        "w": 3,
+        "x": 16,
         "y": 61
       },
       "id": 147,
@@ -5540,9 +5624,9 @@
       },
       "gridPos": {
         "h": 2,
-        "w": 4,
-        "x": 0,
-        "y": 63
+        "w": 5,
+        "x": 19,
+        "y": 61
       },
       "id": 172,
       "options": {
@@ -5592,8 +5676,8 @@
       {
         "allValue": "*",
         "current": {
-          "text": "100.125.21.73:9817",
-          "value": "100.125.21.73:9817"
+          "text": "starlink_exporter:9817",
+          "value": "starlink_exporter:9817"
         },
         "datasource": {
           "type": "prometheus",

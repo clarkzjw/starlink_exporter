@@ -1,6 +1,6 @@
 services:
   starlink_exporter:
-    image: clarkzjw/starlink-exporter:latest
+    image: clarkzjw/starlink_exporter:latest
     restart: always
     ports:
       - "9817:9817"
