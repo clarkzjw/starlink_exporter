@@ -1,0 +1,53 @@
+services:
+  starlink_exporter:
+    image: "clarkzjw/starlink_exporter:latest"
+    restart: always
+    ports:
+      - "9817:9817"
+
+  prometheus:
+    image: "prom/prometheus:v2.37.9"
+    restart: always
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.retention.time=3650d'
+    user: "root"
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./data/prometheus:/prometheus
+
+  grafana:
+    image: "grafana/grafana-oss:11.6.0"
+    restart: always
+    user: "root"
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_INSTALL_PLUGINS=innius-video-panel, dalvany-image-panel, grafana-clock-panel, grafana-simple-json-datasource, ae3e-plotly-panel
+      - GF_LOG_CONSOLE_LEVEL=warn
+      # - GF_SMTP_ENABLED=true
+      # - GF_SMTP_HOST=
+      # - GF_SMTP_USER=
+      # - GF_SMTP_PASSWORD=
+    volumes:
+      - ./data/grafana:/var/lib/grafana
+      - ./config/grafana/provisioning:/etc/grafana/provisioning/
+
+  influxdb:
+    image: "influxdb:2.7.11"
+    ports:
+      - "8086:8086"
+    restart: always
+    volumes:
+      - ./data/influxdb:/var/lib/influxdb2
+      - ./config/influxdb:/etc/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=<PASSWORD>
+      - DOCKER_INFLUXDB_INIT_ORG=starlink
+      - DOCKER_INFLUXDB_INIT_BUCKET=starlink
+      - DOCKER_INFLUXDB_INIT_RETENTION=3600d
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=<TOKEN>

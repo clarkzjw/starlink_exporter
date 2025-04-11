@@ -24,6 +24,6 @@ datasources:
   jsonData:
     version: Flux
     organization: "starlink"
-    defaultBucket: telegraf
+    defaultBucket: starlink
     tlsSkipVerify: true
     timeInterval: "1m"
