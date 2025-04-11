@@ -1,8 +1,13 @@
 package exporter
 
 import (
+	"bytes"
 	"context"
+	"encoding/base64"
 	"fmt"
+	"image"
+	"image/color"
+	"image/png"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -400,13 +405,55 @@ func (e *Exporter) collectDishObstructionMap(ch chan<- prometheus.Metric) bool {
 
 	obstructionMap := resp.GetDishGetObstructionMap()
 
+	rows := int(obstructionMap.NumRows)
+	cols := int(obstructionMap.NumCols)
+	referenceFrame := obstructionMap.GetMapReferenceFrame().String()
+	data := obstructionMap.Snr
+
+	upLeft := image.Point{0, 0}
+	lowRight := image.Point{cols, rows}
+
+	img := image.NewRGBA(image.Rectangle{upLeft, lowRight})
+
+	for x := 0; x < cols; x++ {
+		for y := 0; y < rows; y++ {
+			snr := data[y*cols+x]
+			if snr > 1 {
+				// shouldn't happen
+				snr = 1.0
+			}
+			if snr == -1 {
+				// background
+				img.Set(x, y, color.Black)
+			} else if snr > 0 {
+				// use the same image color style as in starlink-grpc-tools
+				// https://github.com/sparky8512/starlink-grpc-tools/blob/a3860e0a73d0b2280eed92eb8a2a97de0ea5fe43/dish_obstruction_map.py#L59-L87
+				r := 255
+				g := snr * 255
+				b := snr * 255
+				alpha := 255
+				img.Set(x, y, color.RGBA{uint8(r), uint8(g), uint8(b), uint8(alpha)})
+			}
+		}
+	}
+
+	// Encode the image to PNG format in a buffer
+	var buf bytes.Buffer
+	if err := png.Encode(&buf, img); err != nil {
+		fmt.Printf("Failed to encode image: %s", err.Error())
+	}
+
+	timestamp := time.Now().Format(time.RFC3339)
+	b64 := base64.StdEncoding.EncodeToString(buf.Bytes())
+
 	ch <- prometheus.MustNewConstMetric(
 		dishObstructionMap, prometheus.GaugeValue, 1.00,
+		timestamp,
 		fmt.Sprint(obstructionMap.GetNumRows()),
 		fmt.Sprint(obstructionMap.GetNumCols()),
-		// fmt.Sprint(obstructionMap.GetMinElevationDeg()),
 		fmt.Sprint(obstructionMap.GetMaxThetaDeg()),
-		obstructionMap.GetMapReferenceFrame().String(),
+		referenceFrame,
+		fmt.Sprintf("data:image/png;base64,%s", b64),
 	)
 
 	return true

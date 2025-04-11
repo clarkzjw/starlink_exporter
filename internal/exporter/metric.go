@@ -352,11 +352,13 @@ var (
 		prometheus.BuildFQName(namespace, "dish", "obstruction_map"),
 		"Obstruction Map",
 		[]string{
+			"timestamp",
 			"num_rows",
 			"num_cols",
 			// "min_elevation_deg",
 			"max_theta_deg",
-			"reference_frame"}, nil,
+			"reference_frame",
+			"data"}, nil,
 	)
 
 	// diagnostics

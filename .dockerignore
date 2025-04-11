@@ -3,3 +3,4 @@ dist/
 make.sh
 README.md
 .gitignore
+contrib/data/

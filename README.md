@@ -59,5 +59,5 @@ docker-compose up -d
 ## Grafana Dashboard:
 
 <p align="center">
-	<img src="https://github.com/clarkzjw/starlink_exporter/raw/main/static/screenshot.png" width="95%">
+	<img src="https://github.com/clarkzjw/starlink_exporter/raw/main/static/Screenshot.jpeg" width="95%">
 </p>
