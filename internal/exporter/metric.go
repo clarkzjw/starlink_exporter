@@ -219,6 +219,11 @@ var (
 		"physical rx beam snr average",
 		nil, nil,
 	)
+	dishTemperateCenter = prometheus.NewDesc(
+		prometheus.BuildFQName(namespace, "dish", "tCenter"),
+		"Temperature center",
+		nil, nil,
+	)
 	dishEthSpeedMbps = prometheus.NewDesc(
 		prometheus.BuildFQName(namespace, "dish", "eth_speed"),
 		"ethernet speed",
