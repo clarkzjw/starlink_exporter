@@ -52,6 +52,8 @@ For pre-built binaries please take a look at the [releases](https://github.com/c
 
 ### Docker Compose Stack
 
+Use the `docker-compose.yaml` in the [contrib](./contrib) directory. 
+
 ```bash
 docker-compose up -d
 ```
