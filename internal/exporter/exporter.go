@@ -594,10 +594,12 @@ func (e *Exporter) collectDishPower(ch chan<- prometheus.Metric) bool {
 		return false
 	}
 	history := resp.GetDishGetHistory()
-
 	powerHistory := history.GetPowerIn()
+
+	latest_range, _, _ := computeSampleRange(history, 1)
+	latest_index := latest_range[0]
 	ch <- prometheus.MustNewConstMetric(
-		dishPowerWatt, prometheus.GaugeValue, float64(powerHistory[0]),
+		dishPowerWatt, prometheus.GaugeValue, float64(powerHistory[latest_index]),
 	)
 	avg := 0.0
 	for i := 0; i < len(powerHistory); i++ {
@@ -615,4 +617,50 @@ func flool(b bool) float64 {
 		return 1.00
 	}
 	return 0.00
+}
+
+// https://github.com/sparky8512/starlink-grpc-tools/blob/a3860e0a73d0b2280eed92eb8a2a97de0ea5fe43/starlink_grpc.py#L1038-L1090
+func computeSampleRange(history *device.DishGetHistoryResponse, parseSamples int) ([]int, int, int) {
+	current := int(history.Current)
+	samples := len(history.PopPingDropRate)
+	if samples == 0 {
+		return []int{}, 0, 0
+	}
+
+	// Adjust parseSamples if needed
+	if parseSamples < 0 || samples < parseSamples {
+		parseSamples = samples
+	}
+
+	// Calculate start position
+	start := current - parseSamples
+
+	if start == current {
+		return []int{}, 0, current
+	}
+
+	// Calculate ring buffer offsets
+	endOffset := current % samples
+	startOffset := start % samples
+
+	// Create a slice to hold the range of sample indices
+	var sampleRange []int
+
+	// Set the range for the requested set of samples
+	if startOffset < endOffset {
+		// Continuous range
+		for i := startOffset; i < endOffset; i++ {
+			sampleRange = append(sampleRange, i)
+		}
+	} else {
+		// Wrap-around range
+		for i := startOffset; i < samples; i++ {
+			sampleRange = append(sampleRange, i)
+		}
+		for i := 0; i < endOffset; i++ {
+			sampleRange = append(sampleRange, i)
+		}
+	}
+
+	return sampleRange, current - start, current
 }
