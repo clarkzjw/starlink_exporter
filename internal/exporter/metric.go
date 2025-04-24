@@ -311,6 +311,11 @@ var (
 		nil, nil,
 	)
 	// DishObstructions
+	dishPatchesValid = prometheus.NewDesc(
+		prometheus.BuildFQName(namespace, "dish", "patches_valid"),
+		"Number of valid patches",
+		nil, nil,
+	)
 	dishCurrentlyObstructed = prometheus.NewDesc(
 		prometheus.BuildFQName(namespace, "dish", "currently_obstructed"),
 		"Status of view of the sky",
