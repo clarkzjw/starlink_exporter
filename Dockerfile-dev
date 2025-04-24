@@ -1,4 +1,4 @@
-FROM golang:1.24.0 AS builder
+FROM golang:1.24.2 AS builder
 
 WORKDIR /usr/src/app
 
@@ -7,7 +7,7 @@ COPY vendor ./
 RUN go mod tidy
 
 COPY . .
-RUN CGO_ENABLED=0 go build -v -o /usr/local/bin/exporter ./cmd/starlink_exporter/main.go
+RUN CGO_ENABLED=0 go build -o /usr/local/bin/exporter ./cmd/starlink_exporter/main.go
 
 FROM alpine:3.21.3
 

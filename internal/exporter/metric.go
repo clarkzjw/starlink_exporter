@@ -316,6 +316,11 @@ var (
 		"Status of view of the sky",
 		nil, nil,
 	)
+	dishTimeObstructed = prometheus.NewDesc(
+		prometheus.BuildFQName(namespace, "dish", "time_obstructed"),
+		"Time obstructed ratio",
+		nil, nil,
+	)
 	dishFractionObstructionRatio = prometheus.NewDesc(
 		prometheus.BuildFQName(namespace, "dish", "fraction_obstruction_ratio"),
 		"Percentage of obstruction",
