@@ -375,6 +375,9 @@ func (e *Exporter) collectDishObstructionStatus(ch chan<- prometheus.Metric) boo
 		dishCurrentlyObstructed, prometheus.GaugeValue, flool(obstructions.GetCurrentlyObstructed()),
 	)
 	ch <- prometheus.MustNewConstMetric(
+		dishTimeObstructed, prometheus.GaugeValue, float64(obstructions.GetTimeObstructed()),
+	)
+	ch <- prometheus.MustNewConstMetric(
 		dishFractionObstructionRatio, prometheus.GaugeValue, float64(obstructions.GetFractionObstructed()),
 	)
 	ch <- prometheus.MustNewConstMetric(
