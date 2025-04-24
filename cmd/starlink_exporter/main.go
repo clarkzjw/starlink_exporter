@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/clarkzjw/starlink_exporter/internal/exporter"
 	"github.com/prometheus/client_golang/prometheus"
@@ -25,10 +26,20 @@ func main() {
 		*address = os.Getenv("STARLINK_GRPC_ADDR_PORT")
 	}
 
-	exporterClient, err := exporter.New(*address)
-	if err != nil {
-		log.Fatalf("could not start exporterClient: %s", err.Error())
+	var exporterClient *exporter.Exporter
+	var err error
+	retryDelay := 1
+
+	for {
+		exporterClient, err = exporter.New(*address)
+		if err == nil {
+			break
+		}
+
+		log.Warnf("Failed to connect to Starlink dish: %s, retrying in %d seconds...", err.Error(), retryDelay)
+		time.Sleep(time.Duration(retryDelay) * time.Second)
 	}
+
 	defer exporterClient.Conn.Close()
 	log.Infof("dish id: %s", exporterClient.DishID)
 
