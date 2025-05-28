@@ -19,8 +19,6 @@ Original repository:
 
 ---
 
-Last updated with firmware version: `2025.04.08.cr53207 / 05de8289-7bcc-476b-ad62-8cf8cc2a73fe.uterm_manifest.release`
-
 Starlink gRPC protobuf for Golang: [clarkzjw/starlink-grpc-golang](https://github.com/clarkzjw/starlink-grpc-golang)
 
 Starlink dish firmware tracking website: https://starlinktrack.com/firmware/dishy
@@ -52,7 +50,7 @@ For pre-built binaries please take a look at the [releases](https://github.com/c
 
 ### Docker Compose Stack
 
-Use the `docker-compose.yaml` in the [contrib](./contrib) directory. 
+Use the `docker-compose.yaml` in the [contrib](./contrib) directory.
 
 ```bash
 docker-compose up -d
