@@ -289,12 +289,12 @@ func (e *Exporter) collectDishStatus(ch chan<- prometheus.Metric) bool {
 	ch <- prometheus.MustNewConstMetric(
 		dishEthSpeedMbps, prometheus.UntypedValue, float64(dishStatus.GetEthSpeedMbps()),
 	)
-	ch <- prometheus.MustNewConstMetric(
-		dishPhyRxBeamSnrAvg, prometheus.GaugeValue, float64(dishStatus.GetPhyRxBeamSnrAvg()),
-	)
-	ch <- prometheus.MustNewConstMetric(
-		dishTemperateCenter, prometheus.GaugeValue, float64(dishStatus.GetTCenter()),
-	)
+	// ch <- prometheus.MustNewConstMetric(
+	// 	dishPhyRxBeamSnrAvg, prometheus.GaugeValue, float64(dishStatus.GetPhyRxBeamSnrAvg()),
+	// )
+	// ch <- prometheus.MustNewConstMetric(
+	// 	dishTemperateCenter, prometheus.GaugeValue, float64(dishStatus.GetTCenter()),
+	// )
 	return true
 }
 

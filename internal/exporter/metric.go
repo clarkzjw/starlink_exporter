@@ -214,16 +214,16 @@ var (
 		"elevation in degrees",
 		nil, nil,
 	)
-	dishPhyRxBeamSnrAvg = prometheus.NewDesc(
-		prometheus.BuildFQName(namespace, "dish", "phy_rx_beam_snr_avg"),
-		"physical rx beam snr average",
-		nil, nil,
-	)
-	dishTemperateCenter = prometheus.NewDesc(
-		prometheus.BuildFQName(namespace, "dish", "tCenter"),
-		"Temperature center",
-		nil, nil,
-	)
+	// dishPhyRxBeamSnrAvg = prometheus.NewDesc(
+	// 	prometheus.BuildFQName(namespace, "dish", "phy_rx_beam_snr_avg"),
+	// 	"physical rx beam snr average",
+	// 	nil, nil,
+	// )
+	// dishTemperateCenter = prometheus.NewDesc(
+	// 	prometheus.BuildFQName(namespace, "dish", "tCenter"),
+	// 	"Temperature center",
+	// 	nil, nil,
+	// )
 	dishEthSpeedMbps = prometheus.NewDesc(
 		prometheus.BuildFQName(namespace, "dish", "eth_speed"),
 		"ethernet speed",
