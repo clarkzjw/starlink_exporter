@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.34.2
 // 	protoc        v3.21.12
-// source: spacex/api/device/command.proto
+// source: spacex_api/device/command.proto
 
 package device
 
@@ -181,7 +181,7 @@ type PublicKey struct {
 	unknownFields protoimpl.UnknownFields
 
 	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
-	// Deprecated: Marked as deprecated in spacex/api/device/command.proto.
+	// Deprecated: Marked as deprecated in spacex_api/device/command.proto.
 	Capabilities []Capability `protobuf:"varint,2,rep,packed,name=capabilities,proto3,enum=SpaceX.API.Device.Capability" json:"capabilities,omitempty"`
 	User         User         `protobuf:"varint,3,opt,name=user,proto3,enum=SpaceX.API.Device.User" json:"user,omitempty"`
 }
@@ -225,7 +225,7 @@ func (x *PublicKey) GetKey() string {
 	return ""
 }
 
-// Deprecated: Marked as deprecated in spacex/api/device/command.proto.
+// Deprecated: Marked as deprecated in spacex_api/device/command.proto.
 func (x *PublicKey) GetCapabilities() []Capability {
 	if x != nil {
 		return x.Capabilities
@@ -243,7 +243,7 @@ func (x *PublicKey) GetUser() User {
 var File_spacex_api_device_command_proto protoreflect.FileDescriptor
 
 var file_spacex_api_device_command_proto_rawDesc = []byte{
-	0x0a, 0x1f, 0x73, 0x70, 0x61, 0x63, 0x65, 0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x64, 0x65, 0x76,
+	0x0a, 0x1f, 0x73, 0x70, 0x61, 0x63, 0x65, 0x78, 0x5f, 0x61, 0x70, 0x69, 0x2f, 0x64, 0x65, 0x76,
 	0x69, 0x63, 0x65, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x61, 0x6e, 0x64, 0x2e, 0x70, 0x72, 0x6f, 0x74,
 	0x6f, 0x12, 0x11, 0x53, 0x70, 0x61, 0x63, 0x65, 0x58, 0x2e, 0x41, 0x50, 0x49, 0x2e, 0x44, 0x65,
 	0x76, 0x69, 0x63, 0x65, 0x22, 0x91, 0x01, 0x0a, 0x09, 0x50, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b,

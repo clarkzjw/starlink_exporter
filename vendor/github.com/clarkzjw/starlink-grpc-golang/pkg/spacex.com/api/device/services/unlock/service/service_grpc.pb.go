@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v3.21.12
-// source: spacex/api/device/services/unlock/service.proto
+// source: spacex_api/device/services/unlock/service.proto
 
 package service
 
@@ -155,5 +155,5 @@ var UnlockService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "spacex/api/device/services/unlock/service.proto",
+	Metadata: "spacex_api/device/services/unlock/service.proto",
 }

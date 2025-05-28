@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.34.2
 // 	protoc        v3.21.12
-// source: spacex/api/device/wifi_config.proto
+// source: spacex_api/device/wifi_config.proto
 
 package device
 
@@ -826,9 +826,9 @@ type WifiConfig struct {
 	ApplyDisableAutomatedSpeedtests    bool                    `protobuf:"varint,1069,opt,name=apply_disable_automated_speedtests,json=applyDisableAutomatedSpeedtests,proto3" json:"apply_disable_automated_speedtests,omitempty"`
 	EnableUmbilicalVlan                bool                    `protobuf:"varint,61,opt,name=enable_umbilical_vlan,json=enableUmbilicalVlan,proto3" json:"enable_umbilical_vlan,omitempty"`
 	ApplyEnableUmbilicalVlan           bool                    `protobuf:"varint,1073,opt,name=apply_enable_umbilical_vlan,json=applyEnableUmbilicalVlan,proto3" json:"apply_enable_umbilical_vlan,omitempty"`
-	// Deprecated: Marked as deprecated in spacex/api/device/wifi_config.proto.
+	// Deprecated: Marked as deprecated in spacex_api/device/wifi_config.proto.
 	ClientNames []*ClientName `protobuf:"bytes,62,rep,name=client_names,json=clientNames,proto3" json:"client_names,omitempty"`
-	// Deprecated: Marked as deprecated in spacex/api/device/wifi_config.proto.
+	// Deprecated: Marked as deprecated in spacex_api/device/wifi_config.proto.
 	ApplyClientNames          bool `protobuf:"varint,1074,opt,name=apply_client_names,json=applyClientNames,proto3" json:"apply_client_names,omitempty"`
 	OutdoorMode               bool `protobuf:"varint,63,opt,name=outdoor_mode,json=outdoorMode,proto3" json:"outdoor_mode,omitempty"`
 	ApplyOutdoorMode          bool `protobuf:"varint,1075,opt,name=apply_outdoor_mode,json=applyOutdoorMode,proto3" json:"apply_outdoor_mode,omitempty"`
@@ -840,13 +840,13 @@ type WifiConfig struct {
 	ApplyDisable_5GhzHigh     bool `protobuf:"varint,1078,opt,name=apply_disable_5ghz_high,json=applyDisable5ghzHigh,proto3" json:"apply_disable_5ghz_high,omitempty"`
 	DisableXMeshBackhaul      bool `protobuf:"varint,67,opt,name=disable_x_mesh_backhaul,json=disableXMeshBackhaul,proto3" json:"disable_x_mesh_backhaul,omitempty"`
 	ApplyDisableXMeshBackhaul bool `protobuf:"varint,1079,opt,name=apply_disable_x_mesh_backhaul,json=applyDisableXMeshBackhaul,proto3" json:"apply_disable_x_mesh_backhaul,omitempty"`
-	// Deprecated: Marked as deprecated in spacex/api/device/wifi_config.proto.
+	// Deprecated: Marked as deprecated in spacex_api/device/wifi_config.proto.
 	GoldenBssid string `protobuf:"bytes,68,opt,name=golden_bssid,json=goldenBssid,proto3" json:"golden_bssid,omitempty"`
-	// Deprecated: Marked as deprecated in spacex/api/device/wifi_config.proto.
+	// Deprecated: Marked as deprecated in spacex_api/device/wifi_config.proto.
 	ApplyGoldenBssid bool `protobuf:"varint,1080,opt,name=apply_golden_bssid,json=applyGoldenBssid,proto3" json:"apply_golden_bssid,omitempty"`
-	// Deprecated: Marked as deprecated in spacex/api/device/wifi_config.proto.
+	// Deprecated: Marked as deprecated in spacex_api/device/wifi_config.proto.
 	GoldenIfaceType IfaceType `protobuf:"varint,69,opt,name=golden_iface_type,json=goldenIfaceType,proto3,enum=SpaceX.API.Device.IfaceType" json:"golden_iface_type,omitempty"`
-	// Deprecated: Marked as deprecated in spacex/api/device/wifi_config.proto.
+	// Deprecated: Marked as deprecated in spacex_api/device/wifi_config.proto.
 	ApplyGoldenIfaceType                    bool            `protobuf:"varint,1081,opt,name=apply_golden_iface_type,json=applyGoldenIfaceType,proto3" json:"apply_golden_iface_type,omitempty"`
 	TxPowerLevel_2Ghz                       TxPowerLevel    `protobuf:"varint,70,opt,name=tx_power_level_2ghz,json=txPowerLevel2ghz,proto3,enum=SpaceX.API.Device.TxPowerLevel" json:"tx_power_level_2ghz,omitempty"`
 	ApplyTxPowerLevel_2Ghz                  bool            `protobuf:"varint,1082,opt,name=apply_tx_power_level_2ghz,json=applyTxPowerLevel2ghz,proto3" json:"apply_tx_power_level_2ghz,omitempty"`
@@ -1404,7 +1404,7 @@ func (x *WifiConfig) GetApplyEnableUmbilicalVlan() bool {
 	return false
 }
 
-// Deprecated: Marked as deprecated in spacex/api/device/wifi_config.proto.
+// Deprecated: Marked as deprecated in spacex_api/device/wifi_config.proto.
 func (x *WifiConfig) GetClientNames() []*ClientName {
 	if x != nil {
 		return x.ClientNames
@@ -1412,7 +1412,7 @@ func (x *WifiConfig) GetClientNames() []*ClientName {
 	return nil
 }
 
-// Deprecated: Marked as deprecated in spacex/api/device/wifi_config.proto.
+// Deprecated: Marked as deprecated in spacex_api/device/wifi_config.proto.
 func (x *WifiConfig) GetApplyClientNames() bool {
 	if x != nil {
 		return x.ApplyClientNames
@@ -1490,7 +1490,7 @@ func (x *WifiConfig) GetApplyDisableXMeshBackhaul() bool {
 	return false
 }
 
-// Deprecated: Marked as deprecated in spacex/api/device/wifi_config.proto.
+// Deprecated: Marked as deprecated in spacex_api/device/wifi_config.proto.
 func (x *WifiConfig) GetGoldenBssid() string {
 	if x != nil {
 		return x.GoldenBssid
@@ -1498,7 +1498,7 @@ func (x *WifiConfig) GetGoldenBssid() string {
 	return ""
 }
 
-// Deprecated: Marked as deprecated in spacex/api/device/wifi_config.proto.
+// Deprecated: Marked as deprecated in spacex_api/device/wifi_config.proto.
 func (x *WifiConfig) GetApplyGoldenBssid() bool {
 	if x != nil {
 		return x.ApplyGoldenBssid
@@ -1506,7 +1506,7 @@ func (x *WifiConfig) GetApplyGoldenBssid() bool {
 	return false
 }
 
-// Deprecated: Marked as deprecated in spacex/api/device/wifi_config.proto.
+// Deprecated: Marked as deprecated in spacex_api/device/wifi_config.proto.
 func (x *WifiConfig) GetGoldenIfaceType() IfaceType {
 	if x != nil {
 		return x.GoldenIfaceType
@@ -1514,7 +1514,7 @@ func (x *WifiConfig) GetGoldenIfaceType() IfaceType {
 	return IfaceType_IFACE_TYPE_UNKNOWN
 }
 
-// Deprecated: Marked as deprecated in spacex/api/device/wifi_config.proto.
+// Deprecated: Marked as deprecated in spacex_api/device/wifi_config.proto.
 func (x *WifiConfig) GetApplyGoldenIfaceType() bool {
 	if x != nil {
 		return x.ApplyGoldenIfaceType
@@ -2215,7 +2215,7 @@ type AuthRadius struct {
 	unknownFields protoimpl.UnknownFields
 
 	Server string `protobuf:"bytes,1,opt,name=server,proto3" json:"server,omitempty"`
-	// Deprecated: Marked as deprecated in spacex/api/device/wifi_config.proto.
+	// Deprecated: Marked as deprecated in spacex_api/device/wifi_config.proto.
 	ServerCa        string   `protobuf:"bytes,3,opt,name=server_ca,json=serverCa,proto3" json:"server_ca,omitempty"`
 	ServerCaBase_64 string   `protobuf:"bytes,4,opt,name=server_ca_base_64,json=serverCaBase64,proto3" json:"server_ca_base_64,omitempty"`
 	Password        string   `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
@@ -2261,7 +2261,7 @@ func (x *AuthRadius) GetServer() string {
 	return ""
 }
 
-// Deprecated: Marked as deprecated in spacex/api/device/wifi_config.proto.
+// Deprecated: Marked as deprecated in spacex_api/device/wifi_config.proto.
 func (x *AuthRadius) GetServerCa() string {
 	if x != nil {
 		return x.ServerCa
@@ -3243,15 +3243,15 @@ func (x *WeeklyBlockSchedule_BlockRange) GetEndMinutes() uint32 {
 var File_spacex_api_device_wifi_config_proto protoreflect.FileDescriptor
 
 var file_spacex_api_device_wifi_config_proto_rawDesc = []byte{
-	0x0a, 0x23, 0x73, 0x70, 0x61, 0x63, 0x65, 0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x64, 0x65, 0x76,
+	0x0a, 0x23, 0x73, 0x70, 0x61, 0x63, 0x65, 0x78, 0x5f, 0x61, 0x70, 0x69, 0x2f, 0x64, 0x65, 0x76,
 	0x69, 0x63, 0x65, 0x2f, 0x77, 0x69, 0x66, 0x69, 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2e,
 	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x11, 0x53, 0x70, 0x61, 0x63, 0x65, 0x58, 0x2e, 0x41, 0x50,
 	0x49, 0x2e, 0x44, 0x65, 0x76, 0x69, 0x63, 0x65, 0x1a, 0x1f, 0x73, 0x70, 0x61, 0x63, 0x65, 0x78,
-	0x2f, 0x61, 0x70, 0x69, 0x2f, 0x64, 0x65, 0x76, 0x69, 0x63, 0x65, 0x2f, 0x63, 0x6f, 0x6d, 0x6d,
+	0x5f, 0x61, 0x70, 0x69, 0x2f, 0x64, 0x65, 0x76, 0x69, 0x63, 0x65, 0x2f, 0x63, 0x6f, 0x6d, 0x6d,
 	0x61, 0x6e, 0x64, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1e, 0x73, 0x70, 0x61, 0x63, 0x65,
-	0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x64, 0x65, 0x76, 0x69, 0x63, 0x65, 0x2f, 0x63, 0x6f, 0x6d,
+	0x78, 0x5f, 0x61, 0x70, 0x69, 0x2f, 0x64, 0x65, 0x76, 0x69, 0x63, 0x65, 0x2f, 0x63, 0x6f, 0x6d,
 	0x6d, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x21, 0x73, 0x70, 0x61, 0x63, 0x65,
-	0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x64, 0x65, 0x76, 0x69, 0x63, 0x65, 0x2f, 0x77, 0x69, 0x66,
+	0x78, 0x5f, 0x61, 0x70, 0x69, 0x2f, 0x64, 0x65, 0x76, 0x69, 0x63, 0x65, 0x2f, 0x77, 0x69, 0x66,
 	0x69, 0x5f, 0x75, 0x74, 0x69, 0x6c, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xdb, 0x02, 0x0a,
 	0x0a, 0x4d, 0x65, 0x73, 0x68, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x12, 0x21, 0x0a, 0x0c, 0x64,
 	0x69, 0x73, 0x70, 0x6c, 0x61, 0x79, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28,

@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v3.21.12
-// source: spacex/api/device/wifi.proto
+// source: spacex_api/device/wifi.proto
 
 package device
 
@@ -111,5 +111,5 @@ var Mesh_ServiceDesc = grpc.ServiceDesc{
 			ClientStreams: true,
 		},
 	},
-	Metadata: "spacex/api/device/wifi.proto",
+	Metadata: "spacex_api/device/wifi.proto",
 }

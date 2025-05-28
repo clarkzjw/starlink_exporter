@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v3.21.12
-// source: spacex/api/device/device.proto
+// source: spacex_api/device/device.proto
 
 package device
 
@@ -150,5 +150,5 @@ var Device_ServiceDesc = grpc.ServiceDesc{
 			ClientStreams: true,
 		},
 	},
-	Metadata: "spacex/api/device/device.proto",
+	Metadata: "spacex_api/device/device.proto",
 }
