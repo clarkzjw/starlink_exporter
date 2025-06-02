@@ -42,7 +42,7 @@ func main() {
 
 	defer func() {
 		if err := exporterClient.Conn.Close(); err != nil {
-			log.Errorf("Failed to close gRPC connection: %s", err.Error())
+			log.Errorf("Failed to close exporter connection: %s", err.Error())
 		}
 	}()
 	log.Infof("dish id: %s", exporterClient.DishID)

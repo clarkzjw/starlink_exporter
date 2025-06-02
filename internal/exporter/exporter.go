@@ -37,7 +37,9 @@ func New(address string) (*Exporter, error) {
 
 	defer func() {
 		if err != nil {
-			conn.Close()
+			if err = conn.Close(); err != nil {
+				log.Errorf("Failed to close gRPC client: %s", err.Error())
+			}
 		}
 	}()
 
