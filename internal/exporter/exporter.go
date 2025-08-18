@@ -589,10 +589,12 @@ func (e *Exporter) collectAlignmentStats(ch chan<- prometheus.Metric) bool {
 
 	ch <- prometheus.MustNewConstMetric(
 		dishAlignmentStats, prometheus.GaugeValue, 1.00,
+		fmt.Sprint(alignmentStats.GetHasActuators()),
+		fmt.Sprint(alignmentStats.GetActuatorState()),
 		fmt.Sprint(alignmentStats.GetTiltAngleDeg()),
 		fmt.Sprint(alignmentStats.GetBoresightAzimuthDeg()),
 		fmt.Sprint(alignmentStats.GetBoresightElevationDeg()),
-		alignmentStats.GetAttitudeEstimationState().String(),
+		fmt.Sprint(alignmentStats.GetAttitudeEstimationState()),
 		fmt.Sprint(alignmentStats.GetAttitudeUncertaintyDeg()),
 		fmt.Sprint(alignmentStats.GetDesiredBoresightAzimuthDeg()),
 		fmt.Sprint(alignmentStats.GetDesiredBoresightElevationDeg()),

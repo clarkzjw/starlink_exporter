@@ -139,6 +139,8 @@ var (
 		prometheus.BuildFQName(namespace, "dish", "alignment_stats"),
 		"Starlink Dish Alignment Stats",
 		[]string{
+			"hasActuators",
+			"actuatorState",
 			"tiltAngleDeg",
 			"boresightAzimuthDeg",
 			"boresightElevationDeg",
