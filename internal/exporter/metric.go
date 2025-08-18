@@ -5,15 +5,40 @@ import (
 )
 
 var (
+	// ned2dishQuaternion
+	dishNed2dishQuaternionQScalar = prometheus.NewDesc(
+		prometheus.BuildFQName(namespace, "dish", "ned2dish_quaternion_q_scalar"),
+		"ned2dishQuaternion qScalar",
+		nil, nil,
+	)
+	dishNed2dishQuaternionQX = prometheus.NewDesc(
+		prometheus.BuildFQName(namespace, "dish", "ned2dish_quaternion_q_x"),
+		"ned2dishQuaternion qX",
+		nil, nil,
+	)
+	dishNed2dishQuaternionQY = prometheus.NewDesc(
+		prometheus.BuildFQName(namespace, "dish", "ned2dish_quaternion_q_y"),
+		"ned2dishQuaternion qY",
+		nil, nil,
+	)
+	dishNed2dishQuaternionQZ = prometheus.NewDesc(
+		prometheus.BuildFQName(namespace, "dish", "ned2dish_quaternion_q_z"),
+		"ned2dishQuaternion qZ",
+		nil, nil,
+	)
+
 	// Location Info
 	dishLocationInfo = prometheus.NewDesc(
 		prometheus.BuildFQName(namespace, "dish", "location_info"),
-		"Dish Location Info (GPS/Starlink)",
+		"Dish Location Info",
 		[]string{
 			"location_source",
 			"lat",
 			"lon",
-			"alt"}, nil,
+			"alt",
+			"sigmaM",
+			"horizontalSpeedMps",
+			"verticalSpeedMps"}, nil,
 	)
 
 	// DeviceInfo
@@ -117,6 +142,8 @@ var (
 		prometheus.BuildFQName(namespace, "dish", "alignment_stats"),
 		"Starlink Dish Alignment Stats",
 		[]string{
+			"hasActuators",
+			"actuatorState",
 			"tiltAngleDeg",
 			"boresightAzimuthDeg",
 			"boresightElevationDeg",

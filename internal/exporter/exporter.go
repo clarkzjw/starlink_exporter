@@ -179,6 +179,19 @@ func (e *Exporter) collectDishStatus(ch chan<- prometheus.Metric) bool {
 	dishO := dishStatus.GetOutage()
 	dishR := dishStatus.GetReadyStates()
 	dishInit := dishStatus.GetInitializationDurationSeconds()
+	dishQuaternion := dishStatus.GetNed2DishQuaternion()
+
+	ch <- prometheus.MustNewConstMetric(
+		dishNed2dishQuaternionQScalar, prometheus.GaugeValue, float64(dishQuaternion.QScalar))
+
+	ch <- prometheus.MustNewConstMetric(
+		dishNed2dishQuaternionQX, prometheus.GaugeValue, float64(dishQuaternion.QX))
+
+	ch <- prometheus.MustNewConstMetric(
+		dishNed2dishQuaternionQY, prometheus.GaugeValue, float64(dishQuaternion.QY))
+
+	ch <- prometheus.MustNewConstMetric(
+		dishNed2dishQuaternionQZ, prometheus.GaugeValue, float64(dishQuaternion.QZ))
 
 	ch <- prometheus.MustNewConstMetric(
 		dishInitializationDurationSeconds, prometheus.GaugeValue, 1.00,
@@ -202,6 +215,7 @@ func (e *Exporter) collectDishStatus(ch chan<- prometheus.Metric) bool {
 		fmt.Sprint(dishR.GetXphy()),
 		fmt.Sprint(dishR.GetAap()),
 		fmt.Sprint(dishR.GetRf()))
+
 	ch <- prometheus.MustNewConstMetric(
 		userClassOfService, prometheus.GaugeValue, 1.00,
 		dishStatus.GetClassOfService().String())
@@ -339,20 +353,27 @@ func (e *Exporter) collectDishLocation(ch chan<- prometheus.Metric) bool {
 		return true
 	}
 
-	dishStatus := resp.GetGetLocation()
-	locationSource := dishStatus.GetSource()
+	locationInfo := resp.GetGetLocation()
 
-	lla := dishStatus.GetLla()
+	locationSource := locationInfo.GetSource().String()
+	sigmaM := locationInfo.GetSigmaM()
+	horizontalSpeedMps := locationInfo.GetHorizontalSpeedMps()
+	verticalSpeedMps := locationInfo.GetVerticalSpeedMps()
+
+	lla := locationInfo.GetLla()
 	lat := lla.GetLat()
 	lon := lla.GetLon()
 	alt := lla.GetAlt()
 
 	ch <- prometheus.MustNewConstMetric(
 		dishLocationInfo, prometheus.GaugeValue, 1.00,
-		locationSource.String(),
+		locationSource,
 		fmt.Sprintf("%.6f", lat),
 		fmt.Sprintf("%.6f", lon),
 		fmt.Sprintf("%.3f", alt),
+		fmt.Sprintf("%.6f", sigmaM),
+		fmt.Sprintf("%.6f", horizontalSpeedMps),
+		fmt.Sprintf("%.6f", verticalSpeedMps),
 	)
 
 	return true
@@ -374,19 +395,19 @@ func (e *Exporter) collectDishObstructionStatus(ch chan<- prometheus.Metric) boo
 	obstructions := resp.GetDishGetStatus().GetObstructionStats()
 
 	ch <- prometheus.MustNewConstMetric(
-		dishPatchesValid, prometheus.GaugeValue, float64(obstructions.GetPatchesValid()),
-	)
-	ch <- prometheus.MustNewConstMetric(
 		dishCurrentlyObstructed, prometheus.GaugeValue, flool(obstructions.GetCurrentlyObstructed()),
-	)
-	ch <- prometheus.MustNewConstMetric(
-		dishTimeObstructed, prometheus.GaugeValue, float64(obstructions.GetTimeObstructed()),
 	)
 	ch <- prometheus.MustNewConstMetric(
 		dishFractionObstructionRatio, prometheus.GaugeValue, float64(obstructions.GetFractionObstructed()),
 	)
 	ch <- prometheus.MustNewConstMetric(
+		dishTimeObstructed, prometheus.GaugeValue, float64(obstructions.GetTimeObstructed()),
+	)
+	ch <- prometheus.MustNewConstMetric(
 		dishValidSeconds, prometheus.CounterValue, float64(obstructions.GetValidS()),
+	)
+	ch <- prometheus.MustNewConstMetric(
+		dishPatchesValid, prometheus.GaugeValue, float64(obstructions.GetPatchesValid()),
 	)
 	ch <- prometheus.MustNewConstMetric(
 		dishProlongedObstructionDurationSeconds, prometheus.GaugeValue, float64(obstructions.GetAvgProlongedObstructionDurationS()),
@@ -575,10 +596,12 @@ func (e *Exporter) collectAlignmentStats(ch chan<- prometheus.Metric) bool {
 
 	ch <- prometheus.MustNewConstMetric(
 		dishAlignmentStats, prometheus.GaugeValue, 1.00,
+		fmt.Sprint(alignmentStats.GetHasActuators()),
+		fmt.Sprint(alignmentStats.GetActuatorState()),
 		fmt.Sprint(alignmentStats.GetTiltAngleDeg()),
 		fmt.Sprint(alignmentStats.GetBoresightAzimuthDeg()),
 		fmt.Sprint(alignmentStats.GetBoresightElevationDeg()),
-		alignmentStats.GetAttitudeEstimationState().String(),
+		fmt.Sprint(alignmentStats.GetAttitudeEstimationState()),
 		fmt.Sprint(alignmentStats.GetAttitudeUncertaintyDeg()),
 		fmt.Sprint(alignmentStats.GetDesiredBoresightAzimuthDeg()),
 		fmt.Sprint(alignmentStats.GetDesiredBoresightElevationDeg()),

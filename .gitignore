@@ -1,3 +1,4 @@
+starlink_exporter
 cmd/starlink_exporter/starlink_exporter
 debug.json
 res.txt
