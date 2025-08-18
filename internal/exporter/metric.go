@@ -30,12 +30,15 @@ var (
 	// Location Info
 	dishLocationInfo = prometheus.NewDesc(
 		prometheus.BuildFQName(namespace, "dish", "location_info"),
-		"Dish Location Info (GPS/Starlink)",
+		"Dish Location Info",
 		[]string{
 			"location_source",
 			"lat",
 			"lon",
-			"alt"}, nil,
+			"alt",
+			"sigmaM",
+			"horizontalSpeedMps",
+			"verticalSpeedMps"}, nil,
 	)
 
 	// DeviceInfo

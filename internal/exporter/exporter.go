@@ -353,20 +353,27 @@ func (e *Exporter) collectDishLocation(ch chan<- prometheus.Metric) bool {
 		return true
 	}
 
-	dishStatus := resp.GetGetLocation()
-	locationSource := dishStatus.GetSource()
+	locationInfo := resp.GetGetLocation()
 
-	lla := dishStatus.GetLla()
+	locationSource := locationInfo.GetSource().String()
+	sigmaM := locationInfo.GetSigmaM()
+	horizontalSpeedMps := locationInfo.GetHorizontalSpeedMps()
+	verticalSpeedMps := locationInfo.GetVerticalSpeedMps()
+
+	lla := locationInfo.GetLla()
 	lat := lla.GetLat()
 	lon := lla.GetLon()
 	alt := lla.GetAlt()
 
 	ch <- prometheus.MustNewConstMetric(
 		dishLocationInfo, prometheus.GaugeValue, 1.00,
-		locationSource.String(),
+		locationSource,
 		fmt.Sprintf("%.6f", lat),
 		fmt.Sprintf("%.6f", lon),
 		fmt.Sprintf("%.3f", alt),
+		fmt.Sprintf("%.6f", sigmaM),
+		fmt.Sprintf("%.6f", horizontalSpeedMps),
+		fmt.Sprintf("%.6f", verticalSpeedMps),
 	)
 
 	return true
