@@ -17,8 +17,8 @@ jobs:
     steps:
       - uses: actions/setup-go@v5
         with:
-          go-version: 1.24
-      - uses: actions/checkout@v4
+          go-version: 1.25
+      - uses: actions/checkout@v5
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v8
         with:
@@ -29,12 +29,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: 1.24
+          go-version: 1.25
 
       - name: Build
         uses: goreleaser/goreleaser-action@v6
