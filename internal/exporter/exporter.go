@@ -516,12 +516,12 @@ func (e *Exporter) collectDishAlerts(ch chan<- prometheus.Metric) bool {
 	ch <- prometheus.MustNewConstMetric(
 		dishIsPowerSaveIdle, prometheus.GaugeValue, flool(alerts.GetIsPowerSaveIdle()),
 	)
-	ch <- prometheus.MustNewConstMetric(
-		dishMovingWhileNotMobile, prometheus.GaugeValue, flool(alerts.GetMovingWhileNotMobile()),
-	)
-	ch <- prometheus.MustNewConstMetric(
-		dishMovingTooFastForPolicy, prometheus.GaugeValue, flool(alerts.GetMovingTooFastForPolicy()),
-	)
+	// ch <- prometheus.MustNewConstMetric(
+	// 	dishMovingWhileNotMobile, prometheus.GaugeValue, flool(alerts.GetMovingWhileNotMobile()),
+	// )
+	// ch <- prometheus.MustNewConstMetric(
+	// 	dishMovingTooFastForPolicy, prometheus.GaugeValue, flool(alerts.GetMovingTooFastForPolicy()),
+	// )
 	ch <- prometheus.MustNewConstMetric(
 		dishLowMotorCurrent, prometheus.GaugeValue, flool(alerts.GetLowMotorCurrent()),
 	)

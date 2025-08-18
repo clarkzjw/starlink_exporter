@@ -240,16 +240,16 @@ var (
 		"Status of power save idle",
 		nil, nil,
 	)
-	dishMovingWhileNotMobile = prometheus.NewDesc(
-		prometheus.BuildFQName(namespace, "dish", "alert_moving_while_not_mobile"),
-		"Status of moving while not mobile",
-		nil, nil,
-	)
-	dishMovingTooFastForPolicy = prometheus.NewDesc(
-		prometheus.BuildFQName(namespace, "dish", "alert_moving_too_fast_for_policy"),
-		"Status of moving too fast for policy",
-		nil, nil,
-	)
+	// dishMovingWhileNotMobile = prometheus.NewDesc(
+	// 	prometheus.BuildFQName(namespace, "dish", "alert_moving_while_not_mobile"),
+	// 	"Status of moving while not mobile",
+	// 	nil, nil,
+	// )
+	// dishMovingTooFastForPolicy = prometheus.NewDesc(
+	// 	prometheus.BuildFQName(namespace, "dish", "alert_moving_too_fast_for_policy"),
+	// 	"Status of moving too fast for policy",
+	// 	nil, nil,
+	// )
 	dishLowMotorCurrent = prometheus.NewDesc(
 		prometheus.BuildFQName(namespace, "dish", "alert_low_motor_current"),
 		"Status of low motor current",
