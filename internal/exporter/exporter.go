@@ -179,6 +179,19 @@ func (e *Exporter) collectDishStatus(ch chan<- prometheus.Metric) bool {
 	dishO := dishStatus.GetOutage()
 	dishR := dishStatus.GetReadyStates()
 	dishInit := dishStatus.GetInitializationDurationSeconds()
+	dishQuaternion := dishStatus.GetNed2DishQuaternion()
+
+	ch <- prometheus.MustNewConstMetric(
+		dishNed2dishQuaternionQScalar, prometheus.GaugeValue, float64(dishQuaternion.QScalar))
+
+	ch <- prometheus.MustNewConstMetric(
+		dishNed2dishQuaternionQX, prometheus.GaugeValue, float64(dishQuaternion.QX))
+
+	ch <- prometheus.MustNewConstMetric(
+		dishNed2dishQuaternionQY, prometheus.GaugeValue, float64(dishQuaternion.QY))
+
+	ch <- prometheus.MustNewConstMetric(
+		dishNed2dishQuaternionQZ, prometheus.GaugeValue, float64(dishQuaternion.QZ))
 
 	ch <- prometheus.MustNewConstMetric(
 		dishInitializationDurationSeconds, prometheus.GaugeValue, 1.00,
@@ -202,6 +215,7 @@ func (e *Exporter) collectDishStatus(ch chan<- prometheus.Metric) bool {
 		fmt.Sprint(dishR.GetXphy()),
 		fmt.Sprint(dishR.GetAap()),
 		fmt.Sprint(dishR.GetRf()))
+
 	ch <- prometheus.MustNewConstMetric(
 		userClassOfService, prometheus.GaugeValue, 1.00,
 		dishStatus.GetClassOfService().String())
