@@ -11,6 +11,8 @@ RUN CGO_ENABLED=0 go build -o /usr/local/bin/exporter ./cmd/starlink_exporter/ma
 
 FROM alpine:3.22.1
 
+RUN apk add --no-cache --update bind-tools curl
+
 COPY --from=builder /usr/local/bin/exporter /usr/bin/exporter
 
 CMD ["/usr/bin/exporter"]

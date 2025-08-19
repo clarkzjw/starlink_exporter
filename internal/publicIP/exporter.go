@@ -1,11 +1,9 @@
 package publicip
 
 import (
-	"context"
-	"encoding/json"
 	"fmt"
 	"net"
-	"net/http"
+	"os"
 	"os/exec"
 	"regexp"
 	"strings"
@@ -25,12 +23,17 @@ var (
 		"Public IPv4 address of the Starlink dish",
 		[]string{"public_ipv4", "public_ipv6", "pop_code_ipv4", "pop_code_ipv6"}, nil,
 	)
+	iface       = os.Getenv("IFACE")
+	curlTimeout = "5"
 )
 
 type Exporter struct {
 }
 
 func New() (*Exporter, error) {
+	if iface == "" {
+		return nil, fmt.Errorf("IFACE Starlink network interface is not set")
+	}
 	return &Exporter{}, nil
 }
 
@@ -43,12 +46,12 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 }
 
 func (e *Exporter) collectPublicIP(ch chan<- prometheus.Metric) bool {
-	publicIPv4, err := getPublicIP(4)
+	publicIPv4, err := curlGetPublicIP(4)
 	if err != nil {
 		log.Warnf("Failed to fetch public IPv4: %s", err.Error())
 		publicIPv4 = ""
 	}
-	publicIPv6, err := getPublicIP(6)
+	publicIPv6, err := curlGetPublicIP(6)
 	if err != nil {
 		log.Warnf("Failed to fetch public IPv6: %s", err.Error())
 		publicIPv6 = ""
@@ -75,45 +78,60 @@ func (e *Exporter) collectPublicIP(ch chan<- prometheus.Metric) bool {
 	return true
 }
 
-func getPublicIP(ipVersion int) (string, error) {
-	url := "https://ifconfig.io/all.json"
-	version := "tcp4"
-	if ipVersion == 6 {
-		version = "tcp6"
-	}
-	myDialer := net.Dialer{}
-	transport := http.DefaultTransport.(*http.Transport).Clone()
-	transport.DialContext = func(ctx context.Context, network, addr string) (net.Conn, error) {
-		return myDialer.DialContext(ctx, version, addr)
-	}
+// func getPublicIP(ipVersion int) (string, error) {
+// 	url := "https://ifconfig.io/all.json"
+// 	version := "tcp4"
+// 	if ipVersion == 6 {
+// 		version = "tcp6"
+// 	}
+// 	myDialer := net.Dialer{}
+// 	transport := http.DefaultTransport.(*http.Transport).Clone()
+// 	transport.DialContext = func(ctx context.Context, network, addr string) (net.Conn, error) {
+// 		return myDialer.DialContext(ctx, version, addr)
+// 	}
 
-	client := http.Client{
-		Transport: transport,
-	}
+// 	client := http.Client{
+// 		Transport: transport,
+// 	}
 
-	resp, err := client.Get(url)
+// 	resp, err := client.Get(url)
+// 	if err != nil {
+// 		return "", fmt.Errorf("failed to fetch public IP: %s", err.Error())
+// 	}
+// 	defer resp.Body.Close()
+
+// 	if resp.StatusCode != http.StatusOK {
+// 		return "", fmt.Errorf("failed to fetch public IP, status code: %d", resp.StatusCode)
+// 	}
+
+// 	type ifconfigResp struct {
+// 		IP string `json:"ip"`
+// 	}
+
+// 	var data ifconfigResp
+// 	if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
+// 		return "", fmt.Errorf("failed to decode public IP response: %s", err.Error())
+// 	}
+// 	if data.IP == "" {
+// 		return "", fmt.Errorf("public IP not found in response")
+// 	}
+
+// 	return data.IP, nil
+// }
+
+func curlGetPublicIP(ipVersion int) (string, error) {
+	cmd := exec.Command("curl", "--connect-timeout", curlTimeout, "-s", fmt.Sprintf("-%d", ipVersion), "--interface", iface, "https://ifconfig.io")
+	output, err := cmd.Output()
 	if err != nil {
-		return "", fmt.Errorf("failed to fetch public IP: %s", err.Error())
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		return "", fmt.Errorf("failed to fetch public IP, status code: %d", resp.StatusCode)
+		return "", fmt.Errorf("failed to execute curl command: %s", err.Error())
 	}
 
-	type ifconfigResp struct {
-		IP string `json:"ip"`
+	ip := strings.TrimSpace(string(output))
+	if net.ParseIP(ip) == nil {
+		return "", fmt.Errorf("invalid IP address returned by curl: %s", ip)
 	}
 
-	var data ifconfigResp
-	if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
-		return "", fmt.Errorf("failed to decode public IP response: %s", err.Error())
-	}
-	if data.IP == "" {
-		return "", fmt.Errorf("public IP not found in response")
-	}
-
-	return data.IP, nil
+	return ip, nil
 }
 
 func getDnsPtrRecord(ip string) (string, error) {
