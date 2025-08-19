@@ -45,7 +45,7 @@ func main() {
 			log.Errorf("Failed to close exporter connection: %s", err.Error())
 		}
 	}()
-	log.Infof("dish id: %s", exporterClient.DishID)
+	log.Infof("Dish id: %s", exporterClient.DishID)
 
 	r := prometheus.NewRegistry()
 	r.MustRegister(exporterClient)

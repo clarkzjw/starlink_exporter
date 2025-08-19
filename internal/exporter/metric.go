@@ -27,6 +27,13 @@ var (
 		nil, nil,
 	)
 
+	// public IP and PoP info
+	dishPublicIPPoP = prometheus.NewDesc(
+		prometheus.BuildFQName(namespace, "dish", "public_ip_pop"),
+		"Public IPv4 address of the Starlink dish",
+		[]string{"public_ipv4", "public_ipv6", "pop_code_ipv4", "pop_code_ipv6"}, nil,
+	)
+
 	// Location Info
 	dishLocationInfo = prometheus.NewDesc(
 		prometheus.BuildFQName(namespace, "dish", "location_info"),

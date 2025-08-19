@@ -4,10 +4,16 @@ import (
 	"bytes"
 	"context"
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"image"
 	"image/color"
 	"image/png"
+	"net"
+	"net/http"
+	"os/exec"
+	"regexp"
+	"strings"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -132,6 +138,9 @@ func (e *Exporter) Describe(ch chan<- *prometheus.Desc) {
 	ch <- dishProlongedObstructionValid
 	ch <- dishWedgeFractionObstructionRatio
 	ch <- dishWedgeAbsFractionObstructionRatio
+
+	// Public IP and PoP code
+	ch <- dishPublicIPPoP
 }
 
 // Collect fetches the stats from Starlink dish and delivers them as Prometheus metrics.
@@ -146,6 +155,7 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 	ok = ok && e.collectAlignmentStats(ch)
 	ok = ok && e.collectDishDiagnostics(ch)
 	ok = ok && e.collectDishPower(ch)
+	ok = ok && e.collectPublicIP(ch)
 
 	if ok {
 		ch <- prometheus.MustNewConstMetric(
@@ -311,6 +321,102 @@ func (e *Exporter) collectDishStatus(ch chan<- prometheus.Metric) bool {
 	// ch <- prometheus.MustNewConstMetric(
 	// 	dishTemperateCenter, prometheus.GaugeValue, float64(dishStatus.GetTCenter()),
 	// )
+	return true
+}
+
+func getPublicIP(ipVersion int) (string, error) {
+	url := "https://ifconfig.io/all.json"
+	version := "tcp4"
+	if ipVersion == 6 {
+		version = "tcp6"
+	}
+	myDialer := net.Dialer{}
+	transport := http.DefaultTransport.(*http.Transport).Clone()
+	transport.DialContext = func(ctx context.Context, network, addr string) (net.Conn, error) {
+		return myDialer.DialContext(ctx, version, addr)
+	}
+
+	client := http.Client{
+		Transport: transport,
+	}
+
+	resp, err := client.Get(url)
+	if err != nil {
+		return "", fmt.Errorf("failed to fetch public IP: %s", err.Error())
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return "", fmt.Errorf("failed to fetch public IP, status code: %d", resp.StatusCode)
+	}
+
+	type ifconfigResp struct {
+		IP string `json:"ip"`
+	}
+
+	var data ifconfigResp
+	if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
+		return "", fmt.Errorf("failed to decode public IP response: %s", err.Error())
+	}
+	if data.IP == "" {
+		return "", fmt.Errorf("public IP not found in response")
+	}
+
+	return data.IP, nil
+}
+
+func getDnsPtrRecord(ip string) (string, error) {
+	cmd := exec.Command("dig", "@1.1.1.1", "-x", ip, "+short")
+	output, err := cmd.Output()
+	if err != nil {
+		return "", fmt.Errorf("failed to execute dig command: %s", err.Error())
+	}
+
+	ptrRecord := strings.TrimSpace(string(output))
+	regex := `^customer\.(?P<pop>[a-z0-9]+)\.pop\.starlinkisp\.net\.$`
+	re := regexp.MustCompile(regex)
+	matches := re.FindStringSubmatch(ptrRecord)
+	if len(matches) < 2 {
+		return "", fmt.Errorf("failed to parse PTR record: %s", ptrRecord)
+	}
+	popCode := matches[1]
+	if popCode == "" {
+		return "", fmt.Errorf("pop code not found in PTR record: %s", ptrRecord)
+	}
+
+	return popCode, nil
+}
+
+func (e *Exporter) collectPublicIP(ch chan<- prometheus.Metric) bool {
+	publicIPv4, err := getPublicIP(4)
+	if err != nil {
+		log.Warnf("Failed to fetch public IPv4: %s", err.Error())
+		publicIPv4 = ""
+	}
+	publicIPv6, err := getPublicIP(6)
+	if err != nil {
+		log.Warnf("Failed to fetch public IPv6: %s", err.Error())
+		publicIPv6 = ""
+	}
+
+	publicIPv4Ptr, err := getDnsPtrRecord(publicIPv4)
+	if err != nil {
+		log.Warnf("Failed to fetch public IPv4 PTR record: %s", err.Error())
+		publicIPv4Ptr = ""
+	}
+	publicIPv6Ptr, err := getDnsPtrRecord(publicIPv6)
+	if err != nil {
+		log.Warnf("Failed to fetch public IPv6 PTR record: %s", err.Error())
+		publicIPv6Ptr = ""
+	}
+	ch <- prometheus.MustNewConstMetric(
+		dishPublicIPPoP, prometheus.GaugeValue, 1.00,
+		fmt.Sprint(publicIPv4),
+		fmt.Sprint(publicIPv6),
+		fmt.Sprint(publicIPv4Ptr),
+		fmt.Sprint(publicIPv6Ptr),
+	)
+
 	return true
 }
 
