@@ -8,13 +8,16 @@ import (
 	"time"
 
 	"github.com/clarkzjw/starlink_exporter/internal/exporter"
+	publicip "github.com/clarkzjw/starlink_exporter/internal/publicIP"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	log "github.com/sirupsen/logrus"
 )
 
 const (
-	metricsPath = "/metrics"
+	metricsPath           = "/metrics"
+	infrequentMetricsPath = "/infrequentMetrics"
+	healthPath            = "/health"
 )
 
 func main() {
@@ -27,6 +30,7 @@ func main() {
 	}
 
 	var exporterClient *exporter.Exporter
+	var publicIPClient *publicip.Exporter
 	var err error
 	retryDelay := 1
 
@@ -38,6 +42,8 @@ func main() {
 
 		log.Warnf("Failed to connect to Starlink dish: %s, retrying in %d seconds...", err.Error(), retryDelay)
 		time.Sleep(time.Duration(retryDelay) * time.Second)
+
+		publicIPClient, _ = publicip.New()
 	}
 
 	defer func() {
@@ -45,10 +51,13 @@ func main() {
 			log.Errorf("Failed to close exporter connection: %s", err.Error())
 		}
 	}()
-	log.Infof("dish id: %s", exporterClient.DishID)
+	log.Infof("Dish id: %s", exporterClient.DishID)
 
 	r := prometheus.NewRegistry()
 	r.MustRegister(exporterClient)
+
+	r1 := prometheus.NewRegistry()
+	r1.MustRegister(publicIPClient)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		_, _ = w.Write([]byte(`<html>
@@ -61,7 +70,7 @@ func main() {
              </html>`))
 	})
 
-	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc(healthPath, func(w http.ResponseWriter, r *http.Request) {
 		switch exporterClient.Conn.GetState() {
 		case 0, 2:
 			// Idle or Ready
@@ -77,5 +86,7 @@ func main() {
 	})
 
 	http.Handle(metricsPath, promhttp.HandlerFor(r, promhttp.HandlerOpts{}))
+	http.Handle(infrequentMetricsPath, promhttp.HandlerFor(r1, promhttp.HandlerOpts{}))
+
 	log.Fatal(http.ListenAndServe(":"+*port, nil))
 }
