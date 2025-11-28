@@ -56,6 +56,19 @@ Use the `docker-compose.yaml` in the [contrib](./contrib) directory.
 docker-compose up -d
 ```
 
+If you want to build locally, you can use the following command instead
+
+```bash
+docker-compose up -d --build
+```
+
+Podman is also supported if user or system socket is enabled:
+
+```bash
+systemctl --user enable --now podman.socket
+DOCKER_HOST=unix:///run/user/$(id -u)/podman/podman.sock docker-compose up -d # --build is optional
+```
+
 ## Grafana Dashboard:
 
 <p align="center">
